@@ -1,0 +1,17 @@
+{
+  "Name": "Rest Stop Locations",
+  "Author": "ApryllForever",
+  "Version": "1.3",
+  "Description": "Rest Stop Locations!",
+  "UniqueID": "ApryllForever.RestStopLocations",
+  "EntryDll": "RestStopLocations.dll",
+  "MinimumApiVersion": "3.16.0",
+  "UpdateKeys": [ "Nexus:" ], //11429
+  "Dependencies": [
+    {
+      "UniqueID": "spacechase0.SpaceCore"
+    },
+    
+  ]
+
+}
