@@ -71,6 +71,7 @@ namespace RestStopLocations
 
             SpaceEvents.OnEventFinished += OnEventFinished;
             SpaceEvents.AfterGiftGiven += OnGiftGiven;
+            SpaceEvents.BeforeGiftGiven += AforeGiftGiven;
 
             FireflySpawner.Enable(helper, Monitor);
             Items.Enable(helper, Monitor);
@@ -183,7 +184,7 @@ namespace RestStopLocations
             sc.RegisterSerializerType(typeof(BeyondDark));
             sc.RegisterSerializerType(typeof(RealmofSpiritsWinter));
             sc.RegisterSerializerType(typeof(EmeraldForestShrine));
-            //sc.RegisterSerializerType(typeof(BigTree));
+            sc.RegisterSerializerType(typeof(BigTree));
 
             sc.RegisterSerializerType(typeof(PearlEanchantment));
             //sc.RegisterSerializerType(typeof(BugRing));
@@ -490,6 +491,33 @@ namespace RestStopLocations
 
 
 
+        }
+        public static void AforeGiftGiven(object sender, EventArgsBeforeReceiveObject e)
+        {
+
+            if (sender != Game1.player)
+                return;
+            var Allya = Game1.getCharacterFromName("Alla");
+
+            if (e.Npc.Equals(Allya))
+            {
+                // if(e.Gift.Equals(342))
+                if (e.Gift.ParentSheetIndex == 458)
+                {
+                    if (Game1.player.eventsSeen.Contains("Mermaid.Alla8HeartEvent"))
+                     return;
+                    Allya.CurrentDialogue.Push(new Dialogue(Allya, "Strings\\StringsFromCSFiles:Alla.Bouquet.cs.3962"));
+                    Game1.drawDialogue(Allya);
+                    Friendship friendship = Game1.player.friendshipData["Alla"];
+                    if (!friendship.IsDating())
+                    {
+                        friendship.Status = FriendshipStatus.Friendly;
+                       
+                    }
+                     e.Cancel = true;
+
+                }
+            }
         }
 
         static void OnGiftGiven(object sender, EventArgsGiftGiven e)
