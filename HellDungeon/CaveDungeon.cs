@@ -53,7 +53,7 @@ namespace RestStopLocations.Game.Locations.DungeonLevelGenerators
             //location.warps.Add(new Warp(x + 6, y + 11, "Custom_HellDungeon" + location.level.Value / 100, 1, location.level.Value % 100, false));
             PlaceNextWarp(location, 55, 37);
 
-
+            /*
 
 
             {
@@ -220,7 +220,7 @@ namespace RestStopLocations.Game.Locations.DungeonLevelGenerators
                 location.Objects.Add(objectPos, o);
             }
 
-
+            /*
             {
                 PlaceMonsterAt(location, rand, x + 10, y + 40);
                 PlaceMonsterAt(location, rand, x + 16, y + 41);
@@ -269,7 +269,7 @@ namespace RestStopLocations.Game.Locations.DungeonLevelGenerators
                 PlaceBreakableAt(location, rand, x + 3, y + 31);
                 PlaceBreakableAt(location, rand, x + 3, y + 32);
 
-            }
+            } */
 
         }
 

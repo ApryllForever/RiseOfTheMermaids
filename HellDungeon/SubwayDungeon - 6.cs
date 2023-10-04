@@ -29,8 +29,7 @@ namespace RestStopLocations.Game.Locations.DungeonLevelGenerators
 
         public SubwayDungeonLevelGenerator() : base()
         {
-            isOutdoors.Value = false;
-            isIndoorLevel = true;
+           
 
 
         }
@@ -38,7 +37,7 @@ namespace RestStopLocations.Game.Locations.DungeonLevelGenerators
         public override void Generate(HellDungeon location, ref Vector2 warpFromPrev, ref Vector2 warpFromNext)
         {
             Random rand = new Random(location.genSeed.Value);
-            location.isIndoorLevel = true;
+            //location.isIndoorLevel = true;
 
             var caveMap = Game1.game1.xTileContent.Load<Map>(Mod.instance.Helper.ModContent.GetInternalAssetName("assets/maps/HellDungeonSubway.tmx").BaseName);
 
@@ -47,11 +46,11 @@ namespace RestStopLocations.Game.Locations.DungeonLevelGenerators
 
             location.ApplyMapOverride(caveMap, "actual_map", null, new Rectangle(x, y, caveMap.Layers[0].LayerWidth, caveMap.Layers[0].LayerHeight));
 
-            warpFromPrev = new Vector2(x + 36, y + 35);
+            warpFromPrev = new Vector2(x + 24, y + 36);
             //location.warps.Add(new Warp(x + 6, y + 11, "Custom_HellDungeon" + location.level.Value / 100, 1, location.level.Value % 100, false));
-            PlaceNextWarp(location, 97, 97);
+            PlaceNextWarp(location, 33, 4);
 
-
+            /*
 
             {
                 Vector2 position = new Vector2(x + 12, y + 3);
@@ -211,231 +210,9 @@ namespace RestStopLocations.Game.Locations.DungeonLevelGenerators
                 PlaceBreakableAt(location, rand, x + 3, y + 32);
 
             }
-
+            */
         }
-
-
-
-
-
-
-
-		public const int trainSoundDelay = 15000;
-
-		[XmlIgnore]
-		public readonly NetRef<Train> train = new NetRef<Train>();
-
-		[XmlIgnore]
-		private readonly NetBool hasTrainPassed = new NetBool(value: false);
-
-		private int trainTime = -1;
-
-		[XmlIgnore]
-		public readonly NetInt trainTimer = new NetInt(0);
-
-		public static ICue trainLoop;
-
-		
-
-		public override void startEvent(Event evt)
-		{
-			if (evt != null && evt.id == "528052")
-			{
-				evt.eventPositionTileOffset.X -= 8f;
-				evt.eventPositionTileOffset.Y -= 2f;
-			}
-			base.startEvent(evt);
-		}
-
-		protected override void initNetFields()
-		{
-			base.initNetFields();
-			
-			
-			
-		}
-
-
-		protected override void resetLocalState()
-		{
-			base.resetLocalState();
-			if (Game1.getMusicTrackName().ToLower().Contains("ambient"))
-			{
-				Game1.changeMusicTrack("none");
-			}
-			if (!Game1.IsWinter)
-			{
-				AmbientLocationSounds.addSound(new Vector2(15f, 56f), 0);
-			}
-		}
-
-		public override void cleanupBeforePlayerExit()
-		{
-			base.cleanupBeforePlayerExit();
-			if (SubwayDungeonLevelGenerator.trainLoop != null)
-			{
-				SubwayDungeonLevelGenerator.trainLoop.Stop(AudioStopOptions.Immediate);
-			}
-			SubwayDungeonLevelGenerator.trainLoop = null;
-		}
-
-	
-
-		public override void DayUpdate(int dayOfMonth)
-		{
-			base.DayUpdate(dayOfMonth);
-			//this.hasTrainPassed.Value = false;
-			//this.trainTime = -1;
-			Random r = new Random((int)Game1.uniqueIDForThisGame / 2 + (int)Game1.stats.DaysPlayed);
-			if (r.NextDouble() < 0.2 && Game1.isLocationAccessible("Railroad"))
-			{
-				this.trainTime = r.Next(900, 1800);
-				this.trainTime -= this.trainTime % 10;
-			}
-		}
-
-		public override bool isCollidingPosition(Microsoft.Xna.Framework.Rectangle position, xTile.Dimensions.Rectangle viewport, bool isFarmer, int damagesFarmer, bool glider, Character character)
-		{
-			if (!Game1.eventUp && this.train.Value != null && this.train.Value.getBoundingBox().Intersects(position))
-			{
-				return true;
-			}
-			return base.isCollidingPosition(position, viewport, isFarmer, damagesFarmer, glider, character);
-		}
-
-		public void setTrainComing(int delay)
-		{
-			this.trainTimer.Value = delay;
-			
-		}
-
-	
-
-        public static void Update(GameTime time)
-        {
-
-
-
-
-
-
-        }
-
-
-
-
-		public override void updateEvenIfFarmerIsntHere(GameTime time, bool skipWasUpdatedFlush = false)
-		{
-			
-			if (this.train.Value != null && this.train.Value.Update(time, this) && Game1.IsMasterGame)
-			{
-				this.train.Value = null;
-			}
-			if (!Game1.IsMasterGame || Game1.currentLocation != this)
-			{
-				return;
-			}
-			if ( (int)this.trainTimer.Value == 0 && !Game1.isFestival() && this.train.Value == null)
-			{
-				this.setTrainComing(45000);
-			}
-			if ((int)this.trainTimer.Value > 0)
-			{
-				this.trainTimer.Value -= time.ElapsedGameTime.Milliseconds;
-				if ((int)this.trainTimer.Value <= 0)
-				{
-					this.train.Value = new Train();
-					base.playSound("trainWhistle");
-				}
-				if ((int)this.trainTimer.Value < 3500 && Game1.currentLocation == this && Game1.soundBank != null && (SubwayDungeonLevelGenerator.trainLoop == null || !SubwayDungeonLevelGenerator.trainLoop.IsPlaying))
-				{
-                    SubwayDungeonLevelGenerator.trainLoop = Game1.soundBank.GetCue("trainLoop");
-                    SubwayDungeonLevelGenerator.trainLoop.SetVariable("Volume", 0f);
-                    SubwayDungeonLevelGenerator.trainLoop.Play();
-				}
-			}
-			if (this.train.Value != null)
-			{
-				if (Game1.currentLocation == this && Game1.soundBank != null && (SubwayDungeonLevelGenerator.trainLoop == null || !SubwayDungeonLevelGenerator.trainLoop.IsPlaying))
-				{
-                    SubwayDungeonLevelGenerator.trainLoop = Game1.soundBank.GetCue("trainLoop");
-                    SubwayDungeonLevelGenerator.trainLoop.SetVariable("Volume", 0f);
-                    SubwayDungeonLevelGenerator.trainLoop.Play();
-				}
-				if (SubwayDungeonLevelGenerator.trainLoop != null && SubwayDungeonLevelGenerator.trainLoop.GetVariable("Volume") < 100f)
-				{
-                    SubwayDungeonLevelGenerator.trainLoop.SetVariable("Volume", SubwayDungeonLevelGenerator.trainLoop.GetVariable("Volume") + 0.5f);
-				}
-			}
-			else if (SubwayDungeonLevelGenerator.trainLoop != null && (int)this.trainTimer.Value <= 0)
-			{
-                SubwayDungeonLevelGenerator.trainLoop.SetVariable("Volume", SubwayDungeonLevelGenerator.trainLoop.GetVariable("Volume") - 0.15f);
-				if (SubwayDungeonLevelGenerator.trainLoop.GetVariable("Volume") <= 0f)
-				{
-                    SubwayDungeonLevelGenerator.trainLoop.Stop(AudioStopOptions.Immediate);
-                    SubwayDungeonLevelGenerator.trainLoop = null;
-				}
-			}
-			else if ((int)this.trainTimer.Value > 0 && SubwayDungeonLevelGenerator.trainLoop != null)
-			{
-                SubwayDungeonLevelGenerator.trainLoop.SetVariable("Volume", SubwayDungeonLevelGenerator.trainLoop.GetVariable("Volume") + 0.15f);
-			}
-		}
-
-		public override void draw(SpriteBatch b)
-		{
-			base.draw(b);
-			if (this.train.Value != null && !Game1.eventUp)
-			{
-				this.train.Value.draw(b);
-			}
-		}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+           
 
 
 

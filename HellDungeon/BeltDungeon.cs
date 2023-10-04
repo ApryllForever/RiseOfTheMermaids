@@ -294,14 +294,16 @@ namespace RestStopLocations.Game.Locations.DungeonLevelGenerators
                 o.CanBeGrabbed = true;
                 location.Objects.Add(objectPos, o);
             }
+           
+
             {
                 Vector2 objectPos = new Vector2(x + 42, y + 56);
-                Object o = new Object(objectPos, "(O)773"); //Life Elixer
-                o.IsSpawnedObject = true;
-                o.CanBeGrabbed = true;
-                location.Objects.Add(objectPos, o);
+                location.Objects.Add(objectPos, new Object("773", 1)
+                {
+                    IsSpawnedObject = true,
+                    CanBeGrabbed = true
+                });
             }
-
 
             /*
             {
