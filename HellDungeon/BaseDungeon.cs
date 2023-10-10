@@ -396,6 +396,12 @@ namespace RestStopLocations.Game.Locations.DungeonLevelGenerators
                 case 14:
                     location.characters.Add(new RockZombie(new Vector2(tx * Game1.tileSize, ty * Game1.tileSize), 13)); //Green Zombie
                     break;
+                    case 15:
+                    location.characters.Add(new GreenSlime(new Vector2(tx * Game1.tileSize, ty * Game1.tileSize), 13)
+                    
+                        
+                        );
+                    break;
             }
         } 
 

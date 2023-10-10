@@ -53,7 +53,7 @@ namespace RestStopLocations.Game.Locations.DungeonLevelGenerators
             //location.warps.Add(new Warp(x + 6, y + 11, "Custom_HellDungeon" + location.level.Value / 100, 1, location.level.Value % 100, false));
             PlaceNextWarp(location, 55, 37);
 
-            /*
+            
 
 
             {
@@ -117,7 +117,7 @@ namespace RestStopLocations.Game.Locations.DungeonLevelGenerators
                 location.netObjects.Add(position, chest);
             }
             {
-                Vector2 position = new Vector2(x + 4, y + 15);
+                Vector2 position = new Vector2(x + 4, y + 14);
                 Chest chest = new Chest(playerChest: false, position);
                 chest.dropContents.Value = true;
                 chest.synchronized.Value = true;
@@ -140,6 +140,8 @@ namespace RestStopLocations.Game.Locations.DungeonLevelGenerators
                     location.netObjects.Remove(position);
                 location.netObjects.Add(position, chest);
             }
+
+
             {
                 Vector2 position = new Vector2(x + 1, y + 31);
                 Chest chest = new Chest(playerChest: false, position);
@@ -147,11 +149,13 @@ namespace RestStopLocations.Game.Locations.DungeonLevelGenerators
                 chest.synchronized.Value = true;
                 chest.type.Value = "interactive";
                 chest.SetBigCraftableSpriteIndex(227);
-                chest.addItem(new Ring("(R)863"));
+                chest.addItem(new Ring("863"));
                 if (location.netObjects.ContainsKey(position))
                     location.netObjects.Remove(position);
                 location.netObjects.Add(position, chest);
             }
+
+
             {
                 Vector2 position = new Vector2(x + 23, y + 51);
                 Chest chest = new Chest(playerChest: false, position);
@@ -177,50 +181,63 @@ namespace RestStopLocations.Game.Locations.DungeonLevelGenerators
                 location.netObjects.Add(position, chest);
             }
 
+            
+
             {
                 Vector2 objectPos = new Vector2(x + 13, y + 3);
-                Object o = new Object(objectPos, "(O)166"); //Treasure Chest
-                o.IsSpawnedObject = true;
-                o.CanBeGrabbed = true;
-                location.Objects.Add(objectPos, o);
-            }
-            {
-                Vector2 objectPos = new Vector2(x + 1, y + 23);
-                Object o = new Object(objectPos, "(O)336"); //Gold Bar
-                o.IsSpawnedObject = true;
-                o.CanBeGrabbed = true;
-                location.Objects.Add(objectPos, o);
-            }
-            {
-                Vector2 objectPos = new Vector2(x + 4, y + 40);
-                Object o = new Object(objectPos, "(O)348");  //Wine
-                o.IsSpawnedObject = true;
-                o.CanBeGrabbed = true;
-                location.Objects.Add(objectPos, o);
-            }
-            {
-                Vector2 objectPos = new Vector2(x + 5, y + 40);
-                Object o = new Object(objectPos, "(O)216"); //Bread
-                o.IsSpawnedObject = true;
-                o.CanBeGrabbed = true;
-                location.Objects.Add(objectPos, o);
-            }
-            {
-                Vector2 objectPos = new Vector2(x + 54, y + 40);
-                Object o = new Object(objectPos, "(O)348");  //Wine
-                o.IsSpawnedObject = true;
-                o.CanBeGrabbed = true;
-                location.Objects.Add(objectPos, o);
-            }
-            {
-                Vector2 objectPos = new Vector2(x + 55, y + 40);
-                Object o = new Object(objectPos, "(O)216"); //Bread
-                o.IsSpawnedObject = true;
-                o.CanBeGrabbed = true;
-                location.Objects.Add(objectPos, o);
+                location.Objects.Add(objectPos, new Object("166", 1) //Treasure Chest
+                {
+                    IsSpawnedObject = true,
+                    CanBeGrabbed = true
+                });
             }
 
-            /*
+            {
+                Vector2 objectPos = new Vector2(x + 1, y + 23);
+                location.Objects.Add(objectPos, new Object("336", 1)
+                {
+                    IsSpawnedObject = true,
+                    CanBeGrabbed = true
+                });
+            }
+
+            {
+                Vector2 objectPos = new Vector2(x + 4, y + 40);
+                location.Objects.Add(objectPos, new Object("348", 1)
+                {
+                    IsSpawnedObject = true,
+                    CanBeGrabbed = true
+                });
+            }
+
+            {
+                Vector2 objectPos = new Vector2(x + 5, y + 40);
+                location.Objects.Add(objectPos, new Object("216", 1)
+                {
+                    IsSpawnedObject = true,
+                    CanBeGrabbed = true
+                });
+            }
+
+            {
+                Vector2 objectPos = new Vector2(x + 54, y + 40);
+                location.Objects.Add(objectPos, new Object("348", 1)
+                {
+                    IsSpawnedObject = true,
+                    CanBeGrabbed = true
+                });
+            }
+
+            {
+                Vector2 objectPos = new Vector2(x + 55, y + 40);
+                location.Objects.Add(objectPos, new Object("216", 1)
+                {
+                    IsSpawnedObject = true,
+                    CanBeGrabbed = true
+                });
+            }
+
+            
             {
                 PlaceMonsterAt(location, rand, x + 10, y + 40);
                 PlaceMonsterAt(location, rand, x + 16, y + 41);
@@ -269,7 +286,7 @@ namespace RestStopLocations.Game.Locations.DungeonLevelGenerators
                 PlaceBreakableAt(location, rand, x + 3, y + 31);
                 PlaceBreakableAt(location, rand, x + 3, y + 32);
 
-            } */
+            } 
 
         }
 

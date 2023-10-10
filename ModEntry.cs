@@ -29,6 +29,8 @@ using RestStopLocations.Utilities;
 using System.Threading;
 using UtilitiesStuff;
 using static StardewValley.Minigames.CraneGame;
+using StardewValley.Menus;
+using RestStopLocations.VirtualProperties;
 //using RestStopLocations.Quests;
 
 
@@ -56,7 +58,7 @@ namespace RestStopLocations
         {
 
             instance = this;
-            //Assets.Load(helper.ModContent);
+            Assets.Load(helper.ModContent);
             Helper.Events.GameLoop.GameLaunched += OnGameLaunched;
             Helper.Events.GameLoop.TimeChanged += OnTimeChanged;
             Helper.Events.GameLoop.DayStarted += OnDayStarted;
@@ -68,6 +70,7 @@ namespace RestStopLocations
             Helper.Events.GameLoop.SaveLoaded += this.OnSaveLoaded;
             Helper.Events.GameLoop.UpdateTicked += OnUpdateTicked;
             Helper.Events.GameLoop.DayEnding += OnDayEnding;
+            Helper.ConsoleCommands.Add("Mermaid_Enlightenment", "Gives you the Enlightenment.", OnKeyCommand);
 
             SpaceEvents.OnEventFinished += OnEventFinished;
             SpaceEvents.AfterGiftGiven += OnGiftGiven;
@@ -188,10 +191,19 @@ namespace RestStopLocations
 
             sc.RegisterSerializerType(typeof(PearlEanchantment));
             //sc.RegisterSerializerType(typeof(BugRing));
-         
+
+            SpaceEvents.AddWalletItems += AddWalletItems;
+            sc.RegisterCustomProperty(typeof(FarmerTeam), "hasEnlightenment", typeof(NetBool), AccessTools.Method(typeof(FarmerTeam_Enlightenment), nameof(FarmerTeam_Enlightenment.hasEnlightenment)), AccessTools.Method(typeof(FarmerTeam_Enlightenment), nameof(FarmerTeam_Enlightenment.set_hasEnlightenment)));
 
         }
-        
+
+        private void OnKeyCommand(string cmd, string[] args)
+        {
+            Game1.player.team.hasEnlightenment().Value = true;
+        }
+
+
+
         private void OnTimeChanged(object sender, TimeChangedEventArgs e)
         {
             HellDungeon.UpdateLevels10Minutes(e.NewTime);
@@ -263,158 +275,6 @@ namespace RestStopLocations
         {
             if (!Context.IsWorldReady)
                 return;
-
-           
-
-            // long animalID = this.Helper.Multiplayer.GetNewID();
-            /*
-             //FieldInfo fiMultiplayer = typeof(Game1).GetField("multiplayer", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
-            // Multiplayer multiplayer = (Multiplayer)fiMultiplayer.GetValue(null);
-             // Reflection to access private 'Game1.Multiplayer'
-             Multiplayer multiplayer = this.Helper.Reflection.GetField<Multiplayer>(typeof(Game1), "multiplayer").GetValue();
-
-             // Creates some animal objects
-             //FarmAnimal chicken1 = new FarmAnimal("Void Chicken", animalID, -1);
-             FarmAnimal chicken1 = new FarmAnimal("Void Chicken", multiplayer.getNewID(), -1L)
-             {
-                 Position = new Vector2(80 * Game1.tileSize, 40 * Game1.tileSize)
-             };
-
-             FarmAnimal chicken2 = new FarmAnimal("Void Chicken", multiplayer.getNewID(), -1L)
-             {
-                 Position = new Vector2(81 * Game1.tileSize, 40 * Game1.tileSize)
-             };
-
-             FarmAnimal chicken3 = new FarmAnimal("Void Chicken", multiplayer.getNewID(), -1L)
-             {
-                 Position = new Vector2(82 * Game1.tileSize, 40 * Game1.tileSize)
-             };
-
-             FarmAnimal chicken4 = new FarmAnimal("Brown Chicken", multiplayer.getNewID(), -1L)
-             {
-                 Position = new Vector2(83 * Game1.tileSize, 40 * Game1.tileSize)
-             };
-
-             FarmAnimal chicken5 = new FarmAnimal("Brown Chicken", multiplayer.getNewID(), -1L)
-             {
-                 Position = new Vector2(81 * Game1.tileSize, 40 * Game1.tileSize)
-             };
-
-             FarmAnimal chicken6 = new FarmAnimal("White Chicken", multiplayer.getNewID(), -1L)
-             {
-                 Position = new Vector2(81 * Game1.tileSize, 41 * Game1.tileSize)
-             };
-
-             FarmAnimal chicken7 = new FarmAnimal("White Chicken", multiplayer.getNewID(), -1L)
-             {
-                 Position = new Vector2(82 * Game1.tileSize, 42 * Game1.tileSize)
-             };
-
-             FarmAnimal goat1 = new FarmAnimal("Goat", multiplayer.getNewID(), -1L)
-             {
-                 Position = new Vector2(36 * Game1.tileSize, 56 * Game1.tileSize)
-             };
-
-             FarmAnimal goat2 = new FarmAnimal("Goat", multiplayer.getNewID(), -1L)
-             {
-                 Position = new Vector2(40 * Game1.tileSize, 54 * Game1.tileSize)
-             };
-
-             FarmAnimal goat3 = new FarmAnimal("Goat", multiplayer.getNewID(), -1L)
-             {
-                 Position = new Vector2(38 * Game1.tileSize, 58 * Game1.tileSize)
-             };
-
-             FarmAnimal sheep1 = new FarmAnimal("Sheep", multiplayer.getNewID(), -1L)
-             {
-                 Position = new Vector2(26 * Game1.tileSize, 56 * Game1.tileSize)
-             };
-
-             FarmAnimal sheep2 = new FarmAnimal("Sheep", multiplayer.getNewID(), -1L)
-             {
-                 Position = new Vector2(30 * Game1.tileSize, 54 * Game1.tileSize)
-             };
-
-             FarmAnimal sheep3 = new FarmAnimal("Sheep", multiplayer.getNewID(), -1L)
-             {
-                 Position = new Vector2(28 * Game1.tileSize, 58 * Game1.tileSize)
-             };
-
-             FarmAnimal pig1 = new FarmAnimal("Pig", multiplayer.getNewID(), -1L)
-             {
-                 Position = new Vector2(40 * Game1.tileSize, 73 * Game1.tileSize)
-             };
-
-             FarmAnimal pig2 = new FarmAnimal("Pig", multiplayer.getNewID(), -1L)
-             {
-                 Position = new Vector2(42 * Game1.tileSize, 74 * Game1.tileSize)
-             };
-
-             FarmAnimal pig3 = new FarmAnimal("Pig", multiplayer.getNewID(), -1L)
-             {
-                 Position = new Vector2(42 * Game1.tileSize, 76 * Game1.tileSize)
-             };
-
-             FarmAnimal duck1 = new FarmAnimal("Duck", multiplayer.getNewID(), -1L)
-             {
-                 Position = new Vector2(60 * Game1.tileSize, 37 * Game1.tileSize)
-             };
-
-             FarmAnimal duck2 = new FarmAnimal("Duck", multiplayer.getNewID(), -1L)
-             {
-                 Position = new Vector2(61 * Game1.tileSize, 37 * Game1.tileSize)
-             };
-
-             FarmAnimal duck3 = new FarmAnimal("Duck", multiplayer.getNewID(), -1L)
-             {
-                 Position = new Vector2(62 * Game1.tileSize, 37 * Game1.tileSize)
-             };
-
-             FarmAnimal duck4 = new FarmAnimal("Duck", multiplayer.getNewID(), -1L)
-             {
-                 Position = new Vector2(60 * Game1.tileSize, 38 * Game1.tileSize)
-             };
-
-             FarmAnimal duck5 = new FarmAnimal("Duck", multiplayer.getNewID(), -1L)
-             {
-                 Position = new Vector2(61 * Game1.tileSize, 38 * Game1.tileSize)
-             };
-
-             FarmAnimal duck6 = new FarmAnimal("Duck", multiplayer.getNewID(), -1L)
-             {
-                 Position = new Vector2(62 * Game1.tileSize, 38 * Game1.tileSize)
-             };
-
-             FarmAnimal duck7 = new FarmAnimal("Duck", multiplayer.getNewID(), -1L)
-             {
-                 Position = new Vector2(63 * Game1.tileSize, 38 * Game1.tileSize)
-             };
-
-             // Adds animals to Sapphire Springs
-             (Game1.getLocationFromName("SapphireForest") as SapphireForest).Chickies.Add(chicken1);
-             (Game1.getLocationFromName("SapphireForest") as SapphireForest).Chickies.Add(chicken2);
-             (Game1.getLocationFromName("SapphireForest") as SapphireForest).Chickies.Add(chicken3);
-             (Game1.getLocationFromName("SapphireForest") as SapphireForest).Chickies.Add(chicken4);
-             (Game1.getLocationFromName("SapphireForest") as SapphireForest).Chickies.Add(chicken5);
-             (Game1.getLocationFromName("SapphireForest") as SapphireForest).Chickies.Add(chicken6);
-             (Game1.getLocationFromName("SapphireForest") as SapphireForest).Chickies.Add(chicken7);
-             (Game1.getLocationFromName("SapphireForest") as SapphireForest).Chickies.Add(goat1);
-             (Game1.getLocationFromName("SapphireForest") as SapphireForest).Chickies.Add(goat2);
-             (Game1.getLocationFromName("SapphireForest") as SapphireForest).Chickies.Add(goat3);
-             (Game1.getLocationFromName("SapphireForest") as SapphireForest).Chickies.Add(pig1);
-             (Game1.getLocationFromName("SapphireForest") as SapphireForest).Chickies.Add(pig2);
-             (Game1.getLocationFromName("SapphireForest") as SapphireForest).Chickies.Add(pig3);
-             (Game1.getLocationFromName("SapphireForest") as SapphireForest).Chickies.Add(duck1);
-             (Game1.getLocationFromName("SapphireForest") as SapphireForest).Chickies.Add(duck2);
-             (Game1.getLocationFromName("SapphireForest") as SapphireForest).Chickies.Add(duck3);
-             (Game1.getLocationFromName("SapphireForest") as SapphireForest).Chickies.Add(duck4);
-             (Game1.getLocationFromName("SapphireForest") as SapphireForest).Chickies.Add(duck5);
-             (Game1.getLocationFromName("SapphireForest") as SapphireForest).Chickies.Add(duck6);
-             (Game1.getLocationFromName("SapphireForest") as SapphireForest).Chickies.Add(duck7);
-             (Game1.getLocationFromName("SapphireForest") as SapphireForest).Chickies.Add(sheep1);
-             (Game1.getLocationFromName("SapphireForest") as SapphireForest).Chickies.Add(sheep2);
-             (Game1.getLocationFromName("SapphireForest") as SapphireForest).Chickies.Add(sheep3); */
-
         }
 
 
@@ -467,6 +327,16 @@ namespace RestStopLocations
             if (!Context.IsWorldReady)
                 return;
 
+        }
+
+        private void AddWalletItems(object sender, EventArgs e)
+        {
+            var page = sender as NewSkillsPage;
+            if (Game1.player.team.hasEnlightenment().Value)
+                page.specialItems.Add(new ClickableTextureComponent(
+                    name: "", bounds: new Microsoft.Xna.Framework.Rectangle(-1, -1, 16 * Game1.pixelZoom, 16 * Game1.pixelZoom),
+                    label: null, hoverText: "Enlightenment",//I18n.Item_LunarKey_Name(),
+                    texture: Assets.Enlightenment, sourceRect: new Microsoft.Xna.Framework.Rectangle(0, 0, 16, 16), scale: 4f, drawShadow: true));
         }
 
 

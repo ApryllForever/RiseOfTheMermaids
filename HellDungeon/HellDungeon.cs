@@ -28,7 +28,7 @@ using StardewModdingAPI.Events;
 using SpaceCore.Events;
 using Object = StardewValley.Object;
 using UtilitiesStuff;
-
+using RestStopLocations.VirtualProperties;
 
 namespace RestStopLocations.Game.Locations
 {
@@ -367,126 +367,126 @@ namespace RestStopLocations.Game.Locations
 				int tx = tileLocation.X;
 				int ty = tileLocation.Y;
 				Layer layer = Map.GetLayer("Buildings");
-				
 
-				if (action == "HellWarpPrevious")
-				{
-					string prev = HellDungeon.BaseLocationName + (level.Value - 1);
-					if (level.Value == 1)
-						prev = "Custom_DungeonEntrance";
 
-					performTouchAction("MagicWarp " + prev + " 0 1", Game1.player.Position);
-				}
-				else if (action == "HellWarpNext")
+			if (action == "HellWarpPrevious")
+			{
+				string prev = HellDungeon.BaseLocationName + (level.Value - 1);
+				if (level.Value == 1)
+					prev = "Custom_DungeonEntrance";
+
+				performTouchAction("MagicWarp " + prev + " 0 1", Game1.player.Position);
+			}
+			else if (action == "HellWarpNext")
+			{
+				if (warpFromPrev == warpFromNext) // boss level
+					performTouchAction("MagicWarp Custom_SouthRestStop 33 9", Game1.player.Position);
+				else
 				{
-					if (warpFromPrev == warpFromNext) // boss level
-						performTouchAction("MagicWarp Custom_SouthRestStop 33 9", Game1.player.Position);
-					else
-					{
-						string next = HellDungeon.BaseLocationName + (level.Value + 1);
-						performTouchAction("MagicWarp " + next + " 0 0", Game1.player.Position);
-					}
+					string next = HellDungeon.BaseLocationName + (level.Value + 1);
+					performTouchAction("MagicWarp " + next + " 0 0", Game1.player.Position);
 				}
-				else if (action == "SilverKey")
-					{
+			}
+			else if (action == "SilverKey")
+			{
 
 				//Motherfuckery until Spacecore saves the day
 
-				int silverkeyint = 99;// ExternalAPIs.JA.GetObjectId("Silver Key");
-                string silverkey = Convert.ToString(silverkeyint);
-                if (Game1.player.ActiveObject != null && Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, silverkey))
+				//int silverkeyint = 99;// ExternalAPIs.JA.GetObjectId("Silver Key");
+				//string silverkey = Convert.ToString(silverkeyint);
+				if (Game1.player.ActiveObject != null && Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, "ApryllForever.RiseMermaids_SilverKey"))
 				{
 					layer.Tiles[tx, ty] = null;
 					layer.Tiles[tx, ty - 1] = null;
 					layer.Tiles[tx, ty - 2] = null;
 					Game1.playSound("doorCreak");
-                    Game1.player.removeItemFromInventory(ItemRegistry.Create(silverkey));
-                    who.ActiveObject = null;
+					Game1.player.removeItemFromInventory(ItemRegistry.Create("ApryllForever.RiseMermaids_SilverKey"));
+					who.ActiveObject = null;
 					DelayedAction.playSoundAfterDelay("treethud", 1000);
 				}
 				else
 					Game1.addHUDMessage(new HUDMessage("You need the silver key in your hand to open this gate.", 1));
-					Game1.playSound("batScreech");
-					}
+				Game1.playSound("batScreech");
+			}
 			else if (action == "GoldKey")
 			{
-				int goldketint = 98;// ExternalAPIs.JA.GetObjectId("Gold Key");
-                string goldkey = Convert.ToString(goldketint);
-                if (Game1.player.ActiveObject != null && Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, goldkey))
-                {
-                    layer.Tiles[tx, ty] = null;
-                    layer.Tiles[tx, ty - 1] = null;
-                    layer.Tiles[tx, ty - 2] = null;
-                    Game1.playSound("doorCreak");
-                    Game1.player.removeItemFromInventory(ItemRegistry.Create(goldkey));
-                    who.ActiveObject = null;
-                    DelayedAction.playSoundAfterDelay("treethud", 1000);
-                }
-                else
-                    Game1.addHUDMessage(new HUDMessage("You need the gold key in your hand to open this gate.", 1));
-                Game1.playSound("trainWhistle");
-            }
-            else if (action == "IridiumKey")
-            {
-				int iridiumkeyint = 97;// ExternalAPIs.JA.GetObjectId("Iridium Key");
-                string iridiumkey = Convert.ToString(iridiumkeyint);
-                if (Game1.player.ActiveObject != null && Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, iridiumkey))
-                {
-                    layer.Tiles[tx, ty] = null;
-                    layer.Tiles[tx, ty - 1] = null;
-                    layer.Tiles[tx, ty - 2] = null;
-                    Game1.playSound("doorCreak");
-                    Game1.player.removeItemFromInventory(ItemRegistry.Create(iridiumkey));
-                    who.ActiveObject = null;
-                    DelayedAction.playSoundAfterDelay("treethud", 1000);
-                }
-                else
-                    Game1.addHUDMessage(new HUDMessage("You need the iridium key in your hand to open this gate.", 1));
-                Game1.playSound("cacklingWitch");
-            }
-            else if (action == "DiamondKey")
-            {
-				int diamondkeyint = 96;// ExternalAPIs.JA.GetObjectId("Diamond Key");
-                string diamondkey = Convert.ToString(diamondkeyint);
-                if (Game1.player.ActiveObject != null && Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, diamondkey))
-                {
-                    layer.Tiles[tx, ty] = null;
-                    layer.Tiles[tx, ty - 1] = null;
-                    layer.Tiles[tx, ty - 2] = null;
-                    Game1.playSound("doorCreak");
-                    Game1.player.removeItemFromInventory(ItemRegistry.Create(diamondkey));
-                    who.ActiveObject = null;
-                    DelayedAction.playSoundAfterDelay("treethud", 1000);
-                }
-                else
-                    Game1.addHUDMessage(new HUDMessage("You need the diamond key in your hand to open this gate.", 1));
-                Game1.playSound("dogs");
-            }
-            else if (action == "HeartKey")
+				//int goldketint = 98;// ExternalAPIs.JA.GetObjectId("Gold Key");
+				//string goldkey = Convert.ToString(goldketint);
+				if (Game1.player.ActiveObject != null && Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, "ApryllForever.RiseMermaids_GoldKey"))
+				{
+					layer.Tiles[tx, ty] = null;
+					layer.Tiles[tx, ty - 1] = null;
+					layer.Tiles[tx, ty - 2] = null;
+					Game1.playSound("doorCreak");
+					Game1.player.removeItemFromInventory(ItemRegistry.Create("ApryllForever.RiseMermaids_GoldKey"));
+					who.ActiveObject = null;
+					DelayedAction.playSoundAfterDelay("treethud", 1000);
+				}
+				else
+					Game1.addHUDMessage(new HUDMessage("You need the gold key in your hand to open this gate.", 1));
+				Game1.playSound("trainWhistle");
+			}
+			else if (action == "IridiumKey")
 			{
-				int heartkeyint = 95;// ExternalAPIs.JA.GetObjectId("Heart Key");
-                string heartkey = Convert.ToString(heartkeyint);
-                if (Game1.player.ActiveObject != null && Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, heartkey))
-                {
-                    layer.Tiles[tx, ty] = null;
-                    layer.Tiles[tx, ty - 1] = null;
-                    layer.Tiles[tx, ty - 2] = null;
-                    Game1.playSound("doorCreak");
-                    Game1.player.removeItemFromInventory(ItemRegistry.Create(heartkey));
-                    who.ActiveObject = null;
-                    DelayedAction.playSoundAfterDelay("treethud", 1000);
-                }
-                else
+				//int iridiumkeyint = 97;// ExternalAPIs.JA.GetObjectId("Iridium Key");
+				//string iridiumkey = Convert.ToString(iridiumkeyint);
+				if (Game1.player.ActiveObject != null && Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, "ApryllForever.RiseMermaids_IridiumKey"))
+				{
+					layer.Tiles[tx, ty] = null;
+					layer.Tiles[tx, ty - 1] = null;
+					layer.Tiles[tx, ty - 2] = null;
+					Game1.playSound("doorCreak");
+					Game1.player.removeItemFromInventory(ItemRegistry.Create("ApryllForever.RiseMermaids_IridiumKey"));
+					who.ActiveObject = null;
+					DelayedAction.playSoundAfterDelay("treethud", 1000);
+				}
+				else
+					Game1.addHUDMessage(new HUDMessage("You need the iridium key in your hand to open this gate.", 1));
+				Game1.playSound("cacklingWitch");
+			}
+			else if (action == "DiamondKey")
+			{
+				//int diamondkeyint = 96;// ExternalAPIs.JA.GetObjectId("Diamond Key");
+				//string diamondkey = Convert.ToString(diamondkeyint);
+				if (Game1.player.ActiveObject != null && Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, "ApryllForever.RiseMermaids_DiamondKey"))
+				{
+					layer.Tiles[tx, ty] = null;
+					layer.Tiles[tx, ty - 1] = null;
+					layer.Tiles[tx, ty - 2] = null;
+					Game1.playSound("doorCreak");
+					Game1.player.removeItemFromInventory(ItemRegistry.Create("ApryllForever.RiseMermaids_DiamondKey"));
+					who.ActiveObject = null;
+					DelayedAction.playSoundAfterDelay("treethud", 1000);
+				}
+				else
+					Game1.addHUDMessage(new HUDMessage("You need the diamond key in your hand to open this gate.", 1));
+				Game1.playSound("dogs");
+			}
+			else if (action == "HeartKey")
+			{
+				//int heartkeyint = 95;// ExternalAPIs.JA.GetObjectId("Heart Key");
+				//string heartkey = Convert.ToString(heartkeyint);
+				if (Game1.player.ActiveObject != null && Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, "ApryllForever.RiseMermaids_HeartKey"))
+				{
+					layer.Tiles[tx, ty] = null;
+					layer.Tiles[tx, ty - 1] = null;
+					layer.Tiles[tx, ty - 2] = null;
+					Game1.playSound("doorCreak");
+					Game1.player.removeItemFromInventory(ItemRegistry.Create("ApryllForever.RiseMermaids_HeartKey"));
+					who.ActiveObject = null;
+					DelayedAction.playSoundAfterDelay("treethud", 1000);
+				}
+				else
 					Game1.addHUDMessage(new HUDMessage("You need the heart key in your hand to open this gate.", 1));
 				Game1.playSound("snowyStep", 1900);
-				DelayedAction.playSoundAfterDelay("snowyStep", 300,(Game1.player.currentLocation),Game1.player.Position, 1400);
+				DelayedAction.playSoundAfterDelay("snowyStep", 300, (Game1.player.currentLocation), Game1.player.Position, 1400);
 				DelayedAction.playSoundAfterDelay("snowyStep", 1400, Game1.player.currentLocation, Game1.player.Position, 1900);
 				DelayedAction.playSoundAfterDelay("snowyStep", 1700, Game1.player.currentLocation, Game1.player.Position, 1400);
-                DelayedAction.playSoundAfterDelay("snowyStep", 2800, Game1.player.currentLocation, Game1.player.Position, 1900);
-                DelayedAction.playSoundAfterDelay("snowyStep", 3100, Game1.player.currentLocation, Game1.player.Position, 1400);
-                DelayedAction.playSoundAfterDelay("snowyStep", 4200, Game1.player.currentLocation, Game1.player.Position, 1900);
-                DelayedAction.playSoundAfterDelay("snowyStep", 4500, Game1.player.currentLocation, Game1.player.Position, 1400);
-            }
+				DelayedAction.playSoundAfterDelay("snowyStep", 2800, Game1.player.currentLocation, Game1.player.Position, 1900);
+				DelayedAction.playSoundAfterDelay("snowyStep", 3100, Game1.player.currentLocation, Game1.player.Position, 1400);
+				DelayedAction.playSoundAfterDelay("snowyStep", 4200, Game1.player.currentLocation, Game1.player.Position, 1900);
+				DelayedAction.playSoundAfterDelay("snowyStep", 4500, Game1.player.currentLocation, Game1.player.Position, 1400);
+			}
 			else if (action == "NoKey")
 			{
 				{
@@ -497,6 +497,57 @@ namespace RestStopLocations.Game.Locations
 					DelayedAction.playSoundAfterDelay("treethud", 1000);
 				}
 			}
+
+			else if (action == "HugeSilverKey")
+			{
+				if (Game1.player.ActiveObject != null && Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, "ApryllForever.RiseMermaids_SilverKey"))
+				{
+					layer.Tiles[tx + 1, ty - 2] = null;
+					layer.Tiles[tx - 1, ty - 2] = null;
+					layer.Tiles[tx, ty - 2] = null;
+
+					layer.Tiles[tx, ty] = null;
+					layer.Tiles[tx - 1, ty] = null;
+					layer.Tiles[tx + 1, ty] = null;
+					layer.Tiles[tx, ty - 1] = null;
+					layer.Tiles[tx - 1, ty - 1] = null;
+					layer.Tiles[tx + 1, ty - 1] = null;
+
+					Game1.playSound("doorCreak");
+					Game1.player.removeItemFromInventory(ItemRegistry.Create("ApryllForever.RiseMermaids_SilverKey"));
+					who.ActiveObject = null;
+					DelayedAction.playSoundAfterDelay("boulderCrack", 1000);
+				}
+				else
+					Game1.addHUDMessage(new HUDMessage("You need the silver key in your hand to open this gate.", 1));
+				Game1.playSound("batScreech");
+			}
+			else if (action == "HugeGoldKey")
+			{
+				//int goldketint = 98;// ExternalAPIs.JA.GetObjectId("Gold Key");
+				//string goldkey = Convert.ToString(goldketint);
+				if (Game1.player.ActiveObject != null && Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, "ApryllForever.RiseMermaids_GoldKey"))
+				{
+					layer.Tiles[tx + 1, ty - 2] = null;
+					layer.Tiles[tx - 1, ty - 2] = null;
+					layer.Tiles[tx, ty - 2] = null;
+
+					layer.Tiles[tx, ty] = null;
+					layer.Tiles[tx - 1, ty] = null;
+					layer.Tiles[tx + 1, ty] = null;
+					layer.Tiles[tx, ty - 1] = null;
+					layer.Tiles[tx - 1, ty - 1] = null;
+					layer.Tiles[tx + 1, ty - 1] = null;
+					Game1.playSound("doorCreak");
+					Game1.player.removeItemFromInventory(ItemRegistry.Create("ApryllForever.RiseMermaids_GoldKey"));
+					who.ActiveObject = null;
+					DelayedAction.playSoundAfterDelay("boulderCrack", 1000);
+				}
+				else
+					Game1.addHUDMessage(new HUDMessage("You need the gold key in your hand to open this gate.", 1));
+				Game1.playSound("cowboy_gunload");
+			}
+
 
 			else if (action == "HugeDoor")
 			{
@@ -516,7 +567,17 @@ namespace RestStopLocations.Game.Locations
 				createQuestionDialogue(Meri, createYesNoResponses(), "MeriCola");
 			}
 
-			return base.performAction(action, who, tileLocation);
+			else if (action == "Mermaid.Enlightenment")
+			{
+				Game1.playSound("secret1");
+				Game1.addHUDMessage(new HUDMessage("You have received Enlightenment!!!"));
+				Game1.player.team.hasEnlightenment().Value = true;
+			}
+
+
+
+
+            return base.performAction(action, who, tileLocation);
 			}
 
 
@@ -549,7 +610,7 @@ namespace RestStopLocations.Game.Locations
 			return base.answerDialogue(answer);
 		}
 
-		/*
+        /*
 			public override void performTouchAction(string actionStr, Vector2 tileLocation)
 			{
 				string[] split = actionStr.Split(' ');
@@ -573,14 +634,48 @@ namespace RestStopLocations.Game.Locations
 
 
 
+        public override void performTouchAction(string actionStr, Vector2 tileLocation)
+        {
+            string[] split = actionStr.Split(' ');
+            string action = split[0];
+            int tx = (int)tileLocation.X;
+            int ty = (int)tileLocation.Y;
+
+            Vector2 mermaidHoleRight = new Vector2(tx + 8, ty);
+            Vector2 mermaidHoleLeft = new Vector2(tx - 8, ty);
+
+            if (action == "Mermaid.HoleRight")
+            {
+
+
+                Game1.player.setTileLocation(mermaidHoleRight);
+
+                Game1.playSound("fallDown");
+            }
+
+            if (action == "Mermaid.HoleLeft")
+            {
+
+
+                Game1.player.setTileLocation(mermaidHoleLeft);
+
+                Game1.playSound("fallDown");
+            }
+
+
+            base.performTouchAction(actionStr, tileLocation);
+        }
 
 
 
-		public override bool CanPlaceThisFurnitureHere(Furniture furniture)
+
+        public override bool CanPlaceThisFurnitureHere(Furniture furniture)
 			{
 				return false;
 			}		}
 	}
+
+
 
 
 

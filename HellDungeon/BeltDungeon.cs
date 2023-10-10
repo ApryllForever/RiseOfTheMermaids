@@ -230,71 +230,103 @@ namespace RestStopLocations.Game.Locations.DungeonLevelGenerators
             }
 
             {
-                Vector2 objectPos = new Vector2(x + 6, y + 41);
-                Object o = new Object(objectPos, "(O)166");
-                o.IsSpawnedObject = true;
-                o.CanBeGrabbed = true;
-                location.Objects.Add(objectPos, o);
-
+                Vector2 objectPos = new Vector2(x + 6, y + 31);
+                location.Objects.Add(objectPos, new Object("166", 1)
+                {
+                    IsSpawnedObject = true,
+                    CanBeGrabbed = true
+                });
             }
             {
-                Vector2 objectPos = new Vector2(x + 6, y + 31);
-                Object o = new Object(objectPos, "(O)166");
-                o.IsSpawnedObject = true;
-                o.CanBeGrabbed = true;
-                location.Objects.Add(objectPos, o);
+                Vector2 objectPos = new Vector2(x + 6, y + 41);
+                location.Objects.Add(objectPos, new Object("166", 1)
+                {
+                    IsSpawnedObject = true,
+                    CanBeGrabbed = true
+                });
+            }
+
+
+            {
+                Vector2 objectPos = new Vector2(x + 9, y + 53);
+                location.Objects.Add(objectPos, new Object("166", 1)
+                {
+                    IsSpawnedObject = true,
+                    CanBeGrabbed = true
+                });
             }
             {
                 Vector2 objectPos = new Vector2(x + 9, y + 48);
-                Object o = new Object(objectPos, "(O)166");
-                o.IsSpawnedObject = true;
-                o.CanBeGrabbed = true;
-                location.Objects.Add(objectPos, o);
-            }
-            {
-                Vector2 objectPos = new Vector2(x + 9, y + 53);
-                Object o = new Object(objectPos, "(O)166");
-                o.IsSpawnedObject = true;
-                o.CanBeGrabbed = true;
-                location.Objects.Add(objectPos, o);
-            }
-            {
-                Vector2 objectPos = new Vector2(x + 18, y + 53);
-                Object o = new Object(objectPos, "(O)166");
-                o.IsSpawnedObject = true;
-                o.CanBeGrabbed = true;
-                location.Objects.Add(objectPos, o);
+                location.Objects.Add(objectPos, new Object("166", 1)
+                {
+                    IsSpawnedObject = true,
+                    CanBeGrabbed = true
+                });
             }
 
             {
-                Vector2 objectPos = new Vector2(x + 18, y + 48);
-                Object o = new Object(objectPos, "(O)166");
-                o.IsSpawnedObject = true;
-                o.CanBeGrabbed = true;
-                location.Objects.Add(objectPos, o);
+                Vector2 objectPos = new Vector2(x + 18, y + 53);
+                location.Objects.Add(objectPos, new Object("166", 1)
+                {
+                    IsSpawnedObject = true,
+                    CanBeGrabbed = true
+                });
             }
+
+            // { Unsure what this mess does
+            // Vector2 objectPos = new Vector2(x + 18, y + 48);
+            //Object o = new Object(objectPos, "(O)166");
+            // o.IsSpawnedObject = true;
+            // o.CanBeGrabbed = true;
+            //location.Objects.Add(objectPos, o);
+            //}
+
+            {
+                Vector2 objectPos = new Vector2(x + 18, y + 48);
+                location.Objects.Add(objectPos, new Object("166", 1)
+                {
+                    IsSpawnedObject = true,
+                    CanBeGrabbed = true
+                });
+            }
+
+
             {
                 Vector2 objectPos = new Vector2(x + 31, y + 43);
-                Object o = new Object(objectPos, "(O)216");
-                o.IsSpawnedObject = true;
-                o.CanBeGrabbed = true;
-                location.Objects.Add(objectPos, o);
+                location.Objects.Add(objectPos, new Object("216", 1)
+                {
+                    IsSpawnedObject = true,
+                    CanBeGrabbed = true
+                });
             }
+
             {
                 Vector2 objectPos = new Vector2(x + 37, y + 43);
-                Object o = new Object(objectPos, "(O)216"); //Bread
-                o.IsSpawnedObject = true;
-                o.CanBeGrabbed = true;
-                location.Objects.Add(objectPos, o);
+                location.Objects.Add(objectPos, new Object("216", 1)
+                {
+                    IsSpawnedObject = true,
+                    CanBeGrabbed = true
+                });
             }
+
+
+            //{                                                      Makes a Motherfucking cool Fridge spawn! Not sure if this is at all a good thing tho.
+            //  Vector2 objectPos = new Vector2(x + 42, y + 43);
+            //Object o = new Object(objectPos, "(O)216");
+            //o.IsSpawnedObject = true;
+            //o.CanBeGrabbed = true;
+            //location.Objects.Add(objectPos, o);
+            //}
+
             {
                 Vector2 objectPos = new Vector2(x + 42, y + 43);
-                Object o = new Object(objectPos, "(O)216");
-                o.IsSpawnedObject = true;
-                o.CanBeGrabbed = true;
-                location.Objects.Add(objectPos, o);
+                location.Objects.Add(objectPos, new Object("216", 1)
+                {
+                    IsSpawnedObject = true,
+                    CanBeGrabbed = true
+                });
             }
-           
+
 
             {
                 Vector2 objectPos = new Vector2(x + 42, y + 56);

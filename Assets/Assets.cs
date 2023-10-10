@@ -8,20 +8,31 @@ namespace RestStopLocations
 {
     internal static class Assets
     {
-      /*
-        public static Texture2D HoeDirt;
+
+        public static Texture2D Enlightenment;
+
         internal static void Load(IModContentHelper content)
         {
-           
-            Assets.HoeDirt = content.Load<Texture2D>("assets/hoedirt.png");
-        }
+            Assets.Enlightenment = content.Load<Texture2D>("assets/Enlightenment.png");
 
-        internal static void ApplyEdits(AssetRequestedEventArgs e)
-        {
-            if (Game1.currentLocation is Game.Locations.HellLocation && e.NameWithoutLocale.IsEquivalentTo("TerrainFeatures/hoeDirt"))
-            {
-                e.LoadFrom(static () => Assets.HoeDirt, AssetLoadPriority.Exclusive);
-            }
-        } */
-    }
+
+
+
+        }
+            /*
+              public static Texture2D HoeDirt;
+              internal static void Load(IModContentHelper content)
+              {
+
+                  Assets.HoeDirt = content.Load<Texture2D>("assets/hoedirt.png");
+              }
+
+              internal static void ApplyEdits(AssetRequestedEventArgs e)
+              {
+                  if (Game1.currentLocation is Game.Locations.HellLocation && e.NameWithoutLocale.IsEquivalentTo("TerrainFeatures/hoeDirt"))
+                  {
+                      e.LoadFrom(static () => Assets.HoeDirt, AssetLoadPriority.Exclusive);
+                  }
+              } */
+        }
 }
