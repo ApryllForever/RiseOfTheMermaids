@@ -13,6 +13,7 @@ namespace RestStopLocations.Patches
 {
 
     
+    
 
     [HarmonyPatch(typeof(FarmerTeam), MethodType.Constructor)]
     public static class FarmerTeamInjectNetFieldsPatch

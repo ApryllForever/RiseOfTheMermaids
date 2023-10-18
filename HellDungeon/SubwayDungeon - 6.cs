@@ -709,30 +709,7 @@ namespace RestStopLocations.Game.Locations.DungeonLevelGenerators
                         location.characters.Add(i);
                     }
                 }
-
-
-            }
-            
+            }    
         }
-           
-
-
-
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

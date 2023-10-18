@@ -88,7 +88,7 @@ namespace RestStopLocations.Game.Locations.DungeonLevelGenerators
                 chest.synchronized.Value = true;
                 chest.type.Value = "interactive";
                 chest.SetBigCraftableSpriteIndex(227);
-                
+                chest.addItem(ItemRegistry.Create("(O)287", 5));
                 if (location.netObjects.ContainsKey(position))
                     location.netObjects.Remove(position);
                 location.netObjects.Add(position, chest);

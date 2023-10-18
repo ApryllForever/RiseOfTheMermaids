@@ -283,7 +283,7 @@ namespace RestStopLocations
 							position = new Vector2(geodeSpot.bounds.X + 380 - 32, geodeSpot.bounds.Y + 192 - 32),
 							holdLastFrame = true,
 							interval = 100f,
-							id = 777f,
+							id = 777,
 							scale = 4f
 						};
 						for (int i = 0; i < 6; i++)
@@ -349,7 +349,7 @@ namespace RestStopLocations
 							interval = 100f,
 							animationLength = 6,
 							alpha = 0.001f,
-							id = 777f
+							id = 777
 						};
 					}
 				}

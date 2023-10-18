@@ -335,7 +335,7 @@ namespace RestStopLocations
             if (Game1.player.team.hasEnlightenment().Value)
                 page.specialItems.Add(new ClickableTextureComponent(
                     name: "", bounds: new Microsoft.Xna.Framework.Rectangle(-1, -1, 16 * Game1.pixelZoom, 16 * Game1.pixelZoom),
-                    label: null, hoverText: "Enlightenment",//I18n.Item_LunarKey_Name(),
+                    label: null, hoverText: "Enlightenment",
                     texture: Assets.Enlightenment, sourceRect: new Microsoft.Xna.Framework.Rectangle(0, 0, 16, 16), scale: 4f, drawShadow: true));
         }
 
@@ -353,14 +353,7 @@ namespace RestStopLocations
 
                     break;
 
-               
-
-
-
             }
-
-
-
         }
         public static void AforeGiftGiven(object sender, EventArgsBeforeReceiveObject e)
         {
@@ -426,6 +419,8 @@ namespace RestStopLocations
                             new FarmerSprite.AnimationFrame(kissyFrame, delay, secondaryArm: false, flip, haltMe, behaviorAtEndOfFrame: true)
                         });
                     multiplayer.broadcastSprites(Game1.player.currentLocation, new TemporaryAnimatedSprite("LooseSprites\\Cursors", new Microsoft.Xna.Framework.Rectangle(211, 428, 7, 6), 2000f, 1, 0, new Vector2(Game1.player.TilePoint.X, Game1.player.TilePoint.Y) * 64f + new Vector2(16f, -64f), flicker: false, flipped: false, 1f, 0f, Color.White, 4f, 0f, 0f, 0f)
+                  
+                    
                     {
                         motion = new Vector2(0f, -0.5f),
                         alphaFade = 0.01f
