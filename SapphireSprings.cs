@@ -30,7 +30,7 @@ using RestStopLocations.Game.Locations.DungeonLevelGenerators;
 namespace RestStopLocations.Game.Locations.Sapphire
 {
     [XmlType("Mods_ApryllForever_RestStopLocations_SapphireSprings")]
-    public class SapphireSprings : SapphireLocation, IAnimalLocation
+    public class SapphireSprings : SapphireLocation
     {
 		static IModHelper Helper;
 
