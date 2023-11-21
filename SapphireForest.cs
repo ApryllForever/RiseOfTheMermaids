@@ -574,8 +574,8 @@ namespace RestStopLocations.Game.Locations
             var v5 = new Vector2(76);
             var v6 = new Vector2(51);
             addCritter(new Crow((int)v1.X, (int)v2.Y)); 
-            //addCritter(new Crow((int)v3.X, (int)v4.Y));
-            //addCritter(new Crow((int)v5.X, (int)v6.Y));
+            addCritter(new Crow((int)v3.X, (int)v4.Y));
+            addCritter(new Crow((int)v5.X, (int)v6.Y));
             addCritter(new CrabCritter(new Vector2(0f, 104f) * 64f));
             addCritter(new CrabCritter(new Vector2(76f, 45f) * 64f));
             addCritter(new CrabCritter(new Vector2(73f, 48f) * 64f));

@@ -332,7 +332,7 @@ namespace RestStopLocations.Game.Locations.Sapphire
 			}
 			if (train.Value != null)
 			{
-				train.Value.draw(b);
+				train.Value.draw(b, this);
 			}
 
 		}
