@@ -138,7 +138,33 @@ namespace RestStopLocations
 		};
 		}
 
-		protected override void initNetFields()
+
+        public override bool CanPlaceThisFurnitureHere(Furniture furniture)
+        {
+            if (furniture == null)
+            {
+                return false;
+            }
+
+            if (furniture.furniture_type.Value == 15 && (Game1.player.currentLocation is SaltyTail))
+            {
+                return true;
+            }
+
+            int placementRestriction = furniture.placementRestriction;
+            if ((placementRestriction == 0 || placementRestriction == 2))
+            {
+                return true;
+            }
+
+            if ((placementRestriction == 1 || placementRestriction == 2))
+            {
+                return true;
+            }
+
+            return false;
+        }
+        protected override void initNetFields()
 		{
 			base.initNetFields();
 			base.NetFields.AddField(this.fridge).AddField(this.visited);

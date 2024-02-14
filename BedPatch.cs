@@ -1,4 +1,6 @@
-﻿using HarmonyLib;
+﻿/*
+
+using HarmonyLib;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Objects;
@@ -100,3 +102,5 @@ namespace RestStopLocations
         }
     }
 }
+
+*/

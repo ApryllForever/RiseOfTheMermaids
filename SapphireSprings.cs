@@ -500,8 +500,8 @@ namespace RestStopLocations.Game.Locations.Sapphire
 			//}
 			base.DayUpdate(dayOfMonth);
 		}
-		public override bool isCollidingPosition(Microsoft.Xna.Framework.Rectangle position, xTile.Dimensions.Rectangle viewport, bool isFarmer, int damagesFarmer, bool glider, Character character, bool pathfinding, bool projectile = false, bool ignoreCharacterRequirement = false)
-		{
+		public override bool isCollidingPosition(Microsoft.Xna.Framework.Rectangle position, xTile.Dimensions.Rectangle viewport, bool isFarmer, int damagesFarmer, bool glider, Character character)
+        {
 			if (!glider)
 			{
 				if (character != null && !(character is FarmAnimal))
@@ -522,8 +522,8 @@ namespace RestStopLocations.Game.Locations.Sapphire
 					}
 				}
 			}
-			return base.isCollidingPosition(position, viewport, isFarmer, damagesFarmer, glider, character, pathfinding, projectile, ignoreCharacterRequirement);
-		}
+			return base.isCollidingPosition(position, viewport, character is Farmer, damagesFarmer, glider, character, pathfinding: false);
+        }
 
 
         public bool isTileOpenBesidesTerrainFeatures(Vector2 tile)

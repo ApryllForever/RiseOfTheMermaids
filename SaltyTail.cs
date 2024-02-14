@@ -21,6 +21,7 @@ using xTile.Tiles;
 using StardewValley.Menus;
 using Object = StardewValley.Object;
 using UtilitiesStuff;
+using StardewValley.Locations;
 
 namespace RestStopLocations.Game.Locations
 {
@@ -85,6 +86,32 @@ namespace RestStopLocations.Game.Locations
             };
 
 
+        }
+
+        public override bool CanPlaceThisFurnitureHere(Furniture furniture)
+        {
+            if (furniture == null)
+            {
+                return false;
+            }
+
+            if (furniture.furniture_type.Value == 15 && (Game1.player.currentLocation is SaltyTail))
+            {
+                return true;
+            }
+
+            int placementRestriction = furniture.placementRestriction;
+            if ((placementRestriction == 0 || placementRestriction == 2) )
+            {
+                return true;
+            }
+
+            if ((placementRestriction == 1 || placementRestriction == 2) )
+            {
+                return true;
+            }
+
+            return false;
         }
 
 

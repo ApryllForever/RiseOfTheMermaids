@@ -1,3 +1,5 @@
+﻿
+
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -15,113 +17,113 @@ using StardewValley.Locations;
 using StardewValley.Logging;
 using StardewValley.Tools;
 using xTile.Dimensions;
-using StardewModdingAPI;
-using StardewValley;
 using StardewValley.TerrainFeatures;
-using System.Collections;
+using StardewValley;
+using StardewModdingAPI;
+using Object = StardewValley.Object;
 
 namespace RestStopLocations
 {
-    [XmlType("Mods_ApryllForever_RestStopLocations_BigTree")]
-    public class BigTree : Tree
+    [XmlType("Mods_ApryllForever_RestStopLocations_Sequoia")]
+    public class Sequoia : TerrainFeature
     {
 
 
-    internal static IMonitor Monitor { get; set; }
+
         /// <remarks>The backing field for <see cref="M:StardewValley.TerrainFeatures.Tree.GetWildTreeDataDictionary" />.</remarks>
-       // protected static Dictionary<string, WildTreeData> _WildTreeData;
+        protected static Dictionary<string, WildTreeData> _WildTreeData;
 
         /// <summary>The backing field for <see cref="M:StardewValley.TerrainFeatures.Tree.GetWildTreeSeedLookup" />.</summary>
-        //protected static Dictionary<string, string> _WildTreeSeedLookup;
+        protected static Dictionary<string, string> _WildTreeSeedLookup;
 
-        new public const float chanceForDailySeed = 0.2f;
+        public const float chanceForDailySeed = 0.05f;
 
-        new public const float shakeRate = (float)Math.PI / 200f;
+        public const float shakeRate = (float)Math.PI / 200f;
 
-        new public const float shakeDecayRate = 0.00306796166f;
+        public const float shakeDecayRate = 0.00306796166f;
 
-        new public const int minWoodDebrisForFallenTree = 12;
+        public const int minWoodDebrisForFallenTree = 12;
 
-        new public const int minWoodDebrisForStump = 5;
+        public const int minWoodDebrisForStump = 5;
 
-        new public const int startingHealth = 1_000_000_000;
+        public const int startingHealth = 10;
 
-        new public const int leafFallRate = 3;
+        public const int leafFallRate = 3;
 
         /// <summary>The oak tree type ID in <c>Data/WildTrees</c>.</summary>
-        new public const string bushyTree = "1";
+        public const string bushyTree = "1";
 
         /// <summary>The maple tree type ID in <c>Data/WildTrees</c>.</summary>
-        new public const string leafyTree = "2";
+        public const string leafyTree = "2";
 
         /// <summary>The pine tree type ID in <c>Data/WildTrees</c>.</summary>
-        new public const string pineTree = "3";
+        public const string pineTree = "3";
 
-        new public const string winterTree1 = "4";
+        public const string winterTree1 = "4";
 
-        new public const string winterTree2 = "5";
+        public const string winterTree2 = "5";
 
         /// <summary>The palm tree type ID (valley variant) in <c>Data/WildTrees</c>.</summary>
-        new public const string palmTree = "6";
+        public const string palmTree = "6";
 
         /// <summary>The mushroom tree type ID in <c>Data/WildTrees</c>.</summary>
-        new public const string mushroomTree = "7";
+        public const string mushroomTree = "7";
 
         /// <summary>The mahogany tree type ID in <c>Data/WildTrees</c>.</summary>
-        new public const string mahoganyTree = "8";
+        public const string mahoganyTree = "8";
 
         /// <summary>The palm tree type ID (Ginger Island variant) in <c>Data/WildTrees</c>.</summary>
-        new public const string palmTree2 = "9";
+        public const string palmTree2 = "9";
 
-        new public const int seedStage = 0;
+        public const int seedStage = 0;
 
-        new public const int sproutStage = 1;
+        public const int sproutStage = 1;
 
-        new public const int saplingStage = 2;
+        public const int saplingStage = 2;
 
-        new public const int bushStage = 3;
+        public const int bushStage = 3;
 
-        new public const int treeStage = 5;
+        public const int treeStage = 5;
 
         /// <summary>The texture for the displayed tree sprites.</summary>
-        //[XmlIgnore]
-        //public Lazy<Texture2D> texture;
+        [XmlIgnore]
+        public Lazy<Texture2D> texture;
 
         /// <summary>The current season for the location containing the tree.</summary>
-        //protected Season? localSeason;
+        protected Season? localSeason;
 
         [XmlElement("growthStage")]
-        new public readonly NetInt growthStage = new NetInt();
+        public readonly NetInt growthStage = new NetInt();
 
         [XmlElement("treeType")]
-        new public readonly NetString treeType = new NetString();
+        public readonly NetString treeType = new NetString();
 
         [XmlElement("health")]
-        new public readonly NetFloat health = new NetFloat();
+        public readonly NetFloat health = new NetFloat();
 
         [XmlElement("flipped")]
-        new public readonly NetBool flipped = new NetBool();
+        public readonly NetBool flipped = new NetBool();
 
         [XmlElement("stump")]
-        new public readonly NetBool stump = new NetBool();
+        public readonly NetBool stump = new NetBool();
 
         [XmlElement("tapped")]
-        new public readonly NetBool tapped = new NetBool();
+        public readonly NetBool tapped = new NetBool();
 
         [XmlElement("hasSeed")]
-        new public readonly NetBool hasSeed = new NetBool();
+        public readonly NetBool hasSeed = new NetBool();
 
         [XmlIgnore]
-        new public readonly NetBool wasShakenToday = new NetBool();
+        public readonly NetBool wasShakenToday = new NetBool();
 
         [XmlElement("fertilized")]
-        new public readonly NetBool fertilized = new NetBool();
+        public readonly NetBool fertilized = new NetBool();
 
         [XmlIgnore]
-        new public readonly NetBool shakeLeft = new NetBool().Interpolated(interpolate: false, wait: false);
+        public readonly NetBool shakeLeft = new NetBool().Interpolated(interpolate: false, wait: false);
 
         [XmlIgnore]
-        new private readonly NetBool falling = new NetBool();
+        private readonly NetBool falling = new NetBool();
 
         [XmlElement("destroy")]
         private readonly NetBool destroy = new NetBool();
@@ -147,37 +149,40 @@ namespace RestStopLocations
 
         /// <summary>The asset name for the texture loaded by <see cref="F:StardewValley.TerrainFeatures.Tree.texture" />, if applicable.</summary>
         [XmlIgnore]
-        new public string TextureName { get; private set; }
+        public string TextureName { get; private set; }
 
-        public BigTree()
-            : base()
+        public Sequoia()
+            : base(needsTick: true)
         {
             this.resetTexture();
         }
 
-        public BigTree(string id, int growthStage)
+        public Sequoia(string id, int growthStage)
             : this()
         {
             this.growthStage.Value = growthStage;
-            this.treeType.Value = "Mermaid.Sequoia";
-            if ((string)this.treeType.Value == "Mermaid.Sequoia")
-            {
-                this.treeType.Value = "Mermaid.Sequoia";
-            }
-            this.flipped.Value = Game1.random.NextBool();
-            this.health.Value = 1_000_000_000f;
-           
-        }
-
-        public BigTree(string id)
-            : this()
-        {
             this.treeType.Value = id;
-            if ((string)this.treeType.Value == "4")
+            if (this.treeType == "4")
             {
                 this.treeType.Value = "1";
             }
-            if ((string)this.treeType.Value == "5")
+            if (this.treeType == "5")
+            {
+                this.treeType.Value = "2";
+            }
+            this.flipped.Value = Game1.random.NextBool();
+            this.health.Value = 10f;
+        }
+
+        public Sequoia(string id)
+            : this()
+        {
+            this.treeType.Value = id;
+            if (this.treeType == "4")
+            {
+                this.treeType.Value = "1";
+            }
+            if (this.treeType == "5")
             {
                 this.treeType.Value = "2";
             }
@@ -204,65 +209,22 @@ namespace RestStopLocations
                 this.CheckForNewTexture();
             };
         }
-        /*
-        /// <summary>Get the wild tree data from <c>Data/WildTrees</c>.</summary>
-        /// <remarks>This is a specialized method; most code should use <see cref="M:StardewValley.TerrainFeatures.Tree.GetData" /> or <see cref="M:StardewValley.TerrainFeatures.Tree.TryGetData(System.String,StardewValley.GameData.WildTrees.WildTreeData@)" /> instead.</remarks>
-        public static Dictionary<string, WildTreeData> GetWildTreeDataDictionary()
-        {
-            if (Tree._WildTreeData == null)
-            {
-                Tree._LoadWildTreeData();
-            }
-            return Tree._WildTreeData;
-        }
 
-        /// <summary>Get tree types indexed by their qualified and unqualified seed item IDs.</summary>
-        public static Dictionary<string, string> GetWildTreeSeedLookup()
-        {
-            if (Tree._WildTreeSeedLookup == null)
-            {
-                Tree._LoadWildTreeData();
-            }
-            return Tree._WildTreeSeedLookup;
-        }
+    
 
         /// <summary>Load the raw wild tree data from <c>Data/WildTrees</c>.</summary>
         /// <remarks>This generally shouldn't be called directly; most code should use <see cref="M:StardewValley.TerrainFeatures.Tree.GetWildTreeDataDictionary" /> or <see cref="M:StardewValley.TerrainFeatures.Tree.GetWildTreeSeedLookup" /> instead.</remarks>
-        protected static void _LoadWildTreeData()
-        {
-            Tree._WildTreeData = DataLoader.WildTrees(Game1.content);
-            Tree._WildTreeSeedLookup = new Dictionary<string, string>();
-            foreach (KeyValuePair<string, WildTreeData> pair in Tree._WildTreeData)
-            {
-                string treeId = pair.Key;
-                WildTreeData treeData = pair.Value;
-                if (treeData.SeedPlantable && !string.IsNullOrWhiteSpace(treeData.SeedItemId))
-                {
-                    ItemMetadata seedData = ItemRegistry.ResolveMetadata(treeData.SeedItemId);
-                    if (seedData != null)
-                    {
-                        Tree._WildTreeSeedLookup[seedData.QualifiedItemId] = treeId;
-                        Tree._WildTreeSeedLookup[seedData.LocalItemId] = treeId;
-                    }
-                }
-            }
-        }
+      
 
-        /// <summary>Reset the cached wild tree data, so it's reloaded on the next request.</summary>
-        internal static void ClearCache()
-        {
-            Tree._WildTreeData = null;
-            Tree._WildTreeSeedLookup = null;
-        }
-
-        */
+     
 
         /// <summary>Reload the tree texture based on <see cref="F:StardewValley.GameData.WildTrees.WildTreeData.Textures" /> if a different texture would be selected now.</summary>
         public void CheckForNewTexture()
         {
             if (this.texture.IsValueCreated)
             {
-                string textureName = this.ChooseTexture();
+                string textureName;
+                textureName = this.ChooseTexture();
                 if (textureName != null && textureName != this.TextureName)
                 {
                     this.resetTexture();
@@ -273,7 +235,7 @@ namespace RestStopLocations
         /// <summary>Reset the tree texture, so it'll be reselected and reloaded next time it's accessed.</summary>
         public void resetTexture()
         {
-            this.texture = new Lazy<Texture2D>(new Func<Texture2D>(LoadTexture));
+            this.texture = new Lazy<Texture2D>(LoadTexture);
             Texture2D LoadTexture()
             {
                 this.TextureName = this.ChooseTexture();
@@ -312,7 +274,8 @@ namespace RestStopLocations
         /// <summary>Choose an applicable texture from <see cref="F:StardewValley.GameData.WildTrees.WildTreeData.Textures" />.</summary>
         protected string ChooseTexture()
         {
-            WildTreeData data = this.GetData();
+            WildTreeData data;
+            data = this.GetData();
             if (data != null && data.Textures?.Count > 0)
             {
                 foreach (WildTreeTextureData entry in data.Textures)
@@ -329,19 +292,15 @@ namespace RestStopLocations
 
         public override Microsoft.Xna.Framework.Rectangle getBoundingBox()
         {
-            Vector2 tileLocation = this.Tile;
-            if ((int)this.growthStage < 4)
-            {
-                return new Microsoft.Xna.Framework.Rectangle((int)tileLocation.X * 64, (int)tileLocation.Y * 64, 64, 64);
-             
-            }
-            else
-                return new Microsoft.Xna.Framework.Rectangle((int)(tileLocation.X - 1f) * 64, (int)(tileLocation.Y - 1f) * 64, 192, 192);
+            Vector2 tileLocation;
+            tileLocation = this.Tile;
+            return new Microsoft.Xna.Framework.Rectangle((int)tileLocation.X * 64, (int)tileLocation.Y * 64, 64, 64);
         }
 
         public override Microsoft.Xna.Framework.Rectangle getRenderBounds()
         {
-            Vector2 tileLocation = this.Tile;
+            Vector2 tileLocation;
+            tileLocation = this.Tile;
             if ((bool)this.stump || (int)this.growthStage < 5)
             {
                 return new Microsoft.Xna.Framework.Rectangle((int)(tileLocation.X - 0f) * 64, (int)(tileLocation.Y - 1f) * 64, 64, 128);
@@ -351,7 +310,8 @@ namespace RestStopLocations
 
         public override bool performUseAction(Vector2 tileLocation)
         {
-            GameLocation location = this.Location;
+            GameLocation location;
+            location = this.Location;
             if (!this.tapped)
             {
                 if (this.maxShake == 0f && !this.stump && (int)this.growthStage >= 3 && this.IsLeafy())
@@ -369,8 +329,10 @@ namespace RestStopLocations
 
         private int extraWoodCalculator(Vector2 tileLocation)
         {
-            Random random = Utility.CreateRandom(Game1.uniqueIDForThisGame, Game1.stats.DaysPlayed, (double)tileLocation.X * 7.0, (double)tileLocation.Y * 11.0);
-            int extraWood = 0;
+            Random random;
+            random = Utility.CreateRandom(Game1.uniqueIDForThisGame, Game1.stats.DaysPlayed, (double)tileLocation.X * 7.0, (double)tileLocation.Y * 11.0);
+            int extraWood;
+            extraWood = 0;
             if (random.NextDouble() < Game1.player.DailyLuck)
             {
                 extraWood++;
@@ -392,8 +354,10 @@ namespace RestStopLocations
 
         public override bool tickUpdate(GameTime time)
         {
-            GameLocation location = this.Location;
-            Season? season = this.localSeason;
+            GameLocation location;
+            location = this.Location;
+            Season? season;
+            season = this.localSeason;
             if (!season.HasValue)
             {
                 this.setSeason();
@@ -408,7 +372,8 @@ namespace RestStopLocations
                 return true;
             }
             this.alpha = Math.Min(1f, this.alpha + 0.05f);
-            Vector2 tileLocation = this.Tile;
+            Vector2 tileLocation;
+            tileLocation = this.Tile;
             if ((int)this.growthStage >= 5 && !this.falling && !this.stump && Game1.player.GetBoundingBox().Intersects(new Microsoft.Xna.Framework.Rectangle(64 * ((int)tileLocation.X - 1), 64 * ((int)tileLocation.Y - 5), 192, 288)))
             {
                 this.alpha = Math.Max(0.4f, this.alpha - 0.09f);
@@ -447,7 +412,8 @@ namespace RestStopLocations
             {
                 this.shakeRotation += (this.shakeLeft ? (0f - this.maxShake * this.maxShake) : (this.maxShake * this.maxShake));
                 this.maxShake += 0.00153398083f;
-                WildTreeData data = this.GetData();
+                WildTreeData data;
+                data = this.GetData();
                 if (data != null && Game1.random.NextDouble() < 0.01 && this.IsLeafy())
                 {
                     location.localSound("leafrustle");
@@ -464,7 +430,8 @@ namespace RestStopLocations
                         }
                         if (this.IsLeafy())
                         {
-                            int leavesToAdd = Game1.random.Next(90, 120);
+                            int leavesToAdd;
+                            leavesToAdd = Game1.random.Next(90, 120);
                             for (int j = 0; j < leavesToAdd; j++)
                             {
                                 this.leaves.Add(new Leaf(new Vector2(Game1.random.Next((int)(tileLocation.X * 64f), (int)(tileLocation.X * 64f + 192f)) + (this.shakeLeft ? (-320) : 256), tileLocation.Y * 64f - 64f), (float)Game1.random.Next(-10, 10) / 100f, Game1.random.Next(4), (float)Game1.random.Next(10, 40) / 10f));
@@ -485,12 +452,14 @@ namespace RestStopLocations
                         {
                             r = Utility.CreateRandom(Game1.uniqueIDForThisGame, Game1.stats.DaysPlayed, (double)tileLocation.X * 7.0, (double)tileLocation.Y * 11.0);
                         }
-                        Farmer targetFarmer = Game1.getFarmer(this.lastPlayerToHit.Value);
+                        Farmer targetFarmer;
+                        targetFarmer = Game1.getFarmer(this.lastPlayerToHit.Value);
                         if (data.DropWoodOnChop)
                         {
                             Game1.createMultipleObjectDebris("(O)92", (int)tileLocation.X + (this.shakeLeft ? (-4) : 4), (int)tileLocation.Y, 5, this.lastPlayerToHit.Value, location);
                         }
-                        int numHardwood = 0;
+                        int numHardwood;
+                        numHardwood = 0;
                         if (data.DropHardwoodOnLumberChop && targetFarmer != null)
                         {
                             while (targetFarmer.professions.Contains(14) && r.NextBool())
@@ -498,13 +467,16 @@ namespace RestStopLocations
                                 numHardwood++;
                             }
                         }
-                        List<WildTreeChopItemData> chopItems = data.ChopItems;
+                        List<WildTreeChopItemData> chopItems;
+                        chopItems = data.ChopItems;
                         if (chopItems != null && chopItems.Count > 0)
                         {
-                            bool addedAdditionalHardwood = false;
+                            bool addedAdditionalHardwood;
+                            addedAdditionalHardwood = false;
                             foreach (WildTreeChopItemData drop in data.ChopItems)
                             {
-                                Item item = this.TryGetDrop(drop, r, targetFarmer, "ChopItems", null, false);
+                                Item item;
+                                item = this.TryGetDrop(drop, r, targetFarmer, "ChopItems", null, false);
                                 if (item != null)
                                 {
                                     if (drop.ItemId == "709")
@@ -527,7 +499,8 @@ namespace RestStopLocations
                         {
                             Game1.createMultipleObjectDebris("(O)709", (int)tileLocation.X + (this.shakeLeft ? (-4) : 4), (int)tileLocation.Y, numHardwood, this.lastPlayerToHit.Value, location);
                         }
-                        float seedOnChopChance = data.SeedOnChopChance;
+                        float seedOnChopChance;
+                        seedOnChopChance = data.SeedOnChopChance;
                         if (Game1.getFarmer(this.lastPlayerToHit.Value).getEffectiveSkillLevel(2) >= 1 && data != null && data.SeedItemId != null && r.NextDouble() < (double)seedOnChopChance)
                         {
                             Game1.createMultipleObjectDebris(data.SeedItemId, (int)tileLocation.X + (this.shakeLeft ? (-4) : 4), (int)tileLocation.Y, r.Next(1, 3), this.lastPlayerToHit.Value, location);
@@ -545,7 +518,8 @@ namespace RestStopLocations
             }
             for (int i = this.leaves.Count - 1; i >= 0; i--)
             {
-                Leaf leaf = this.leaves[i];
+                Leaf leaf;
+                leaf = this.leaves[i];
                 leaf.position.Y -= leaf.yVelocity - 3f;
                 leaf.yVelocity = Math.Max(0f, leaf.yVelocity - 0.01f);
                 leaf.rotation += leaf.rotationRate;
@@ -579,14 +553,13 @@ namespace RestStopLocations
             {
                 return null;
             }
-            WildTreeChopItemData chopItemData = drop as WildTreeChopItemData;
-            if (chopItemData != null && !chopItemData.IsValidForGrowthStage(this.growthStage.Value, isStump ?? this.stump.Value))
+            if (drop is WildTreeChopItemData chopItemData && !chopItemData.IsValidForGrowthStage(this.growthStage.Value, isStump ?? this.stump.Value))
             {
                 return null;
             }
             return ItemQueryResolver.TryResolveRandomItem(drop, new ItemQueryContext(this.Location, targetFarmer, r), avoidRepeat: false, null, formatItemId, null, delegate (string query, string error)
             {
-               // IGameLogger log = Game1.log;
+            
                 DefaultInterpolatedStringHandler defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(57, 5);
                 defaultInterpolatedStringHandler.AppendLiteral("Wild tree '");
                 defaultInterpolatedStringHandler.AppendFormatted(this.treeType.Value);
@@ -598,18 +571,16 @@ namespace RestStopLocations
                 defaultInterpolatedStringHandler.AppendFormatted(drop.Id);
                 defaultInterpolatedStringHandler.AppendLiteral("': ");
                 defaultInterpolatedStringHandler.AppendFormatted(error);
-
-                Monitor.Log((defaultInterpolatedStringHandler.ToStringAndClear()));
-
-
-               //log.Error(defaultInterpolatedStringHandler.ToStringAndClear());
+                
             });
         }
 
         public void shake(Vector2 tileLocation, bool doEvenIfStillShaking)
         {
-            GameLocation location = this.Location;
-            WildTreeData data = this.GetData();
+            GameLocation location;
+            location = this.Location;
+            WildTreeData data;
+            data = this.GetData();
             if ((this.maxShake == 0f || doEvenIfStillShaking) && (int)this.growthStage >= 3 && !this.stump)
             {
                 this.shakeLeft.Value = (float)Game1.player.StandingPixel.X > (tileLocation.X + 0.5f) * 64f || (Game1.player.Tile.X == tileLocation.X && Game1.random.NextBool());
@@ -618,7 +589,8 @@ namespace RestStopLocations
                 {
                     if (Game1.random.NextDouble() < 0.66)
                     {
-                        int numberOfLeaves2 = Game1.random.Next(1, 6);
+                        int numberOfLeaves2;
+                        numberOfLeaves2 = Game1.random.Next(1, 6);
                         for (int j = 0; j < numberOfLeaves2; j++)
                         {
                             this.leaves.Add(new Leaf(new Vector2(Game1.random.Next((int)(tileLocation.X * 64f - 64f), (int)(tileLocation.X * 64f + 128f)), Game1.random.Next((int)(tileLocation.Y * 64f - 256f), (int)(tileLocation.Y * 64f - 192f))), (float)Game1.random.Next(-10, 10) / 100f, Game1.random.Next(4), (float)Game1.random.Next(5) / 10f));
@@ -626,7 +598,8 @@ namespace RestStopLocations
                     }
                     if (Game1.random.NextDouble() < 0.01 && (this.localSeason == Season.Spring || this.localSeason == Season.Summer))
                     {
-                        bool isIslandButterfly = this.Location.InIslandContext();
+                        bool isIslandButterfly;
+                        isIslandButterfly = this.Location.InIslandContext();
                         while (Game1.random.NextDouble() < 0.8)
                         {
                             location.addCritter(new Butterfly(location, new Vector2(tileLocation.X + (float)Game1.random.Next(1, 3), tileLocation.Y - 2f + (float)Game1.random.Next(-1, 2)), isIslandButterfly));
@@ -634,12 +607,14 @@ namespace RestStopLocations
                     }
                     if ((bool)this.hasSeed && (Game1.IsMultiplayer || Game1.player.ForagingLevel >= 1))
                     {
-                        bool dropDefaultSeed = true;
+                        bool dropDefaultSeed;
+                        dropDefaultSeed = true;
                         if (data != null && data.SeedDropItems?.Count > 0)
                         {
                             foreach (WildTreeSeedDropItemData drop in data.SeedDropItems)
                             {
-                                Item seed = this.TryGetDrop(drop, Game1.random, Game1.player, "SeedDropItems");
+                                Item seed;
+                                seed = this.TryGetDrop(drop, Game1.random, Game1.player, "SeedDropItems");
                                 if (seed != null)
                                 {
                                     Game1.createItemDebris(seed, new Vector2(tileLocation.X * 64f, (tileLocation.Y - 3f) * 64f), -1, location, Game1.player.StandingPixel.Y);
@@ -670,18 +645,23 @@ namespace RestStopLocations
                     {
                         return;
                     }
-                    foreach (WildTreeItemData entry in data.ShakeItems)
                     {
-                        Item item = this.TryGetDrop(entry, Game1.random, Game1.player, "ShakeItems");
-                        if (item != null)
+                        foreach (WildTreeItemData entry in data.ShakeItems)
                         {
-                            Game1.createItemDebris(item, tileLocation * 64f, -2, this.Location);
+                            Item item;
+                            item = this.TryGetDrop(entry, Game1.random, Game1.player, "ShakeItems");
+                            if (item != null)
+                            {
+                                Game1.createItemDebris(item, tileLocation * 64f, -2, this.Location);
+                            }
                         }
+                        return;
                     }
                 }
-                else if (Game1.random.NextDouble() < 0.66)
+                if (Game1.random.NextDouble() < 0.66)
                 {
-                    int numberOfLeaves = Game1.random.Next(1, 3);
+                    int numberOfLeaves;
+                    numberOfLeaves = Game1.random.Next(1, 3);
                     for (int i = 0; i < numberOfLeaves; i++)
                     {
                         this.leaves.Add(new Leaf(new Vector2(Game1.random.Next((int)(tileLocation.X * 64f), (int)(tileLocation.X * 64f + 48f)), tileLocation.Y * 64f - 32f), (float)Game1.random.Next(-10, 10) / 100f, Game1.random.Next(4), (float)Game1.random.Next(30) / 10f));
@@ -707,8 +687,10 @@ namespace RestStopLocations
         /// <param name="ignoreSeason">Whether to assume the tree is in-season.</param>
         public virtual int GetMaxSizeHere(bool ignoreSeason = false)
         {
-            GameLocation location = this.Location;
-            Vector2 tile = this.Tile;
+            GameLocation location;
+            location = this.Location;
+            Vector2 tile;
+            tile = this.Tile;
             if (this.GetData() == null)
             {
                 return this.growthStage.Value;
@@ -745,18 +727,17 @@ namespace RestStopLocations
         /// <summary>Get whether growth is blocked because it's too close to another fully-grown tree.</summary>
         public bool IsGrowthBlockedByNearbyTree()
         {
-            GameLocation location = this.Location;
-            Vector2 tile = this.Tile;
-            Microsoft.Xna.Framework.Rectangle growthRect = new Microsoft.Xna.Framework.Rectangle((int)((tile.X - 1f) * 64f), (int)((tile.Y - 1f) * 64f), 192, 192);
+            GameLocation location;
+            location = this.Location;
+            Vector2 tile;
+            tile = this.Tile;
+            Microsoft.Xna.Framework.Rectangle growthRect;
+            growthRect = new Microsoft.Xna.Framework.Rectangle((int)((tile.X - 1f) * 64f), (int)((tile.Y - 1f) * 64f), 192, 192);
             foreach (KeyValuePair<Vector2, TerrainFeature> other in location.terrainFeatures.Pairs)
             {
-                if (other.Key != tile)
+                if (other.Key != tile && other.Value is Tree otherTree && (int)otherTree.growthStage >= 5 && otherTree.getBoundingBox().Intersects(growthRect))
                 {
-                    Tree otherTree = other.Value as Tree;
-                    if (otherTree != null && (int)otherTree.growthStage >= 5 && otherTree.getBoundingBox().Intersects(growthRect))
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
             return false;
@@ -764,19 +745,23 @@ namespace RestStopLocations
 
         public override void dayUpdate()
         {
-            GameLocation environment = this.Location;
+            GameLocation environment;
+            environment = this.Location;
             this.wasShakenToday.Value = false;
             this.setSeason();
             this.CheckForNewTexture();
-            WildTreeData data = this.GetData();
-            Vector2 tile = this.Tile;
+            WildTreeData data;
+            data = this.GetData();
+            Vector2 tile;
+            tile = this.Tile;
             if (this.health.Value <= -100f)
             {
                 this.destroy.Value = true;
             }
             if (this.tapped.Value)
             {
-                StardewValley.Object tile_object = environment.getObjectAtTile((int)tile.X, (int)tile.Y);
+                Object tile_object;
+                tile_object = environment.getObjectAtTile((int)tile.X, (int)tile.Y);
                 if (tile_object == null || !tile_object.IsTapper())
                 {
                     this.tapped.Value = false;
@@ -784,8 +769,10 @@ namespace RestStopLocations
             }
             if (this.GetMaxSizeHere() > this.growthStage.Value)
             {
-                float chance = data?.GrowthChance ?? 0.2f;
-                float fertilizedGrowthChance = data?.FertilizedGrowthChance ?? 1f;
+                float chance;
+                chance = data?.GrowthChance ?? 0.2f;
+                float fertilizedGrowthChance;
+                fertilizedGrowthChance = data?.FertilizedGrowthChance ?? 1f;
                 if (Game1.random.NextBool(chance) || (this.fertilized.Value && Game1.random.NextBool(fertilizedGrowthChance)))
                 {
                     this.growthStage.Value++;
@@ -803,9 +790,12 @@ namespace RestStopLocations
             }
             if ((int)this.growthStage >= 5 && environment is Farm && Game1.random.NextDouble() < 0.15)
             {
-                int xCoord = Game1.random.Next(-3, 4) + (int)tile.X;
-                int yCoord = Game1.random.Next(-3, 4) + (int)tile.Y;
-                Vector2 location = new Vector2(xCoord, yCoord);
+                int xCoord;
+                xCoord = Game1.random.Next(-3, 4) + (int)tile.X;
+                int yCoord;
+                yCoord = Game1.random.Next(-3, 4) + (int)tile.Y;
+                Vector2 location;
+                location = new Vector2(xCoord, yCoord);
                 if (!environment.IsNoSpawnTile(location, "Tree") && environment.isTileLocationOpen(new Location(xCoord, yCoord)) && !environment.IsTileOccupiedBy(location) && !environment.isWaterTile(xCoord, yCoord) && environment.isTileOnMap(location))
                 {
                     environment.terrainFeatures.Add(location, new Tree(this.treeType, 0));
@@ -839,7 +829,8 @@ namespace RestStopLocations
 
         public virtual bool IsLeafy()
         {
-            WildTreeData data = this.GetData();
+            WildTreeData data;
+            data = this.GetData();
             if (data != null && data.IsLeafy)
             {
                 if (!data.IsLeafyInWinter)
@@ -861,7 +852,8 @@ namespace RestStopLocations
         /// <param name="data">The wild tree data to read.</param>
         public Color? GetChopDebrisColor(WildTreeData data)
         {
-            string rawColor = data?.DebrisColor;
+            string rawColor;
+            rawColor = data?.DebrisColor;
             if (rawColor == null)
             {
                 return null;
@@ -875,7 +867,8 @@ namespace RestStopLocations
 
         public override bool performToolAction(Tool t, int explosion, Vector2 tileLocation)
         {
-            GameLocation location = this.Location ?? Game1.currentLocation;
+            GameLocation location;
+            location = this.Location ?? Game1.currentLocation;
             if (explosion > 0)
             {
                 this.tapped.Value = false;
@@ -897,7 +890,8 @@ namespace RestStopLocations
                     location.debris.Add(new Debris(12, Game1.random.Next(1, 3), t.getLastFarmerToUse().GetToolLocation() + new Vector2(16f, 0f), t.getLastFarmerToUse().Position, 0, this.GetChopDebrisColor()));
                     if (!this.stump && t.getLastFarmerToUse() != null && location.HasUnlockedAreaSecretNotes(t.getLastFarmerToUse()) && Game1.random.NextDouble() < 0.005)
                     {
-                        StardewValley.Object o = location.tryToCreateUnseenSecretNote(t.getLastFarmerToUse());
+                        Object o;
+                        o = location.tryToCreateUnseenSecretNote(t.getLastFarmerToUse());
                         if (o != null)
                         {
                             Game1.createItemDebris(o, new Vector2(tileLocation.X, tileLocation.Y - 3f) * 64f, -1, location, Game1.player.StandingPixel.Y - 32);
@@ -932,7 +926,8 @@ namespace RestStopLocations
                 }
                 if (t is Axe && t.hasEnchantmentOfType<ShavingEnchantment>() && Game1.random.NextDouble() <= (double)(damage / 5f))
                 {
-                    Debris d = new Debris("388", new Vector2(tileLocation.X * 64f + 32f, (tileLocation.Y - 0.5f) * 64f + 32f), Game1.player.getStandingPosition());
+                    Debris d;
+                    d = new Debris("388", new Vector2(tileLocation.X * 64f + 32f, (tileLocation.Y - 0.5f) * 64f + 32f), Game1.player.getStandingPosition());
                     d.Chunks[0].xVelocity.Value += (float)Game1.random.Next(-10, 11) / 10f;
                     d.chunkFinalYLevel = (int)(tileLocation.Y * 64f + 64f);
                     location.debris.Add(d);
@@ -959,7 +954,8 @@ namespace RestStopLocations
                     return false;
                 }
                 this.shake(tileLocation, doEvenIfStillShaking: true);
-                float damage2 = 1f;
+                float damage2;
+                damage2 = 1f;
                 damage2 = ((explosion > 0) ? ((float)explosion) : ((int)t.upgradeLevel switch
                 {
                     0 => 2f,
@@ -1014,7 +1010,8 @@ namespace RestStopLocations
 
         public bool fertilize()
         {
-            GameLocation location = this.Location;
+            GameLocation location;
+            location = this.Location;
             if ((int)this.growthStage >= 5)
             {
                 Game1.showRedMessageUsingLoadString("Strings\\StringsFromCSFiles:TreeFertilizer1");
@@ -1054,9 +1051,11 @@ namespace RestStopLocations
 
         protected void performSeedDestroy(Tool t, Vector2 tileLocation)
         {
-            GameLocation location = this.Location;
+            GameLocation location;
+            location = this.Location;
             Game1.Multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite(17, tileLocation * 64f, Color.White));
-            WildTreeData data = this.GetData();
+            WildTreeData data;
+            data = this.GetData();
             if (data != null && data.SeedItemId != null)
             {
                 if (this.lastPlayerToHit.Value != 0L && Game1.getFarmer(this.lastPlayerToHit.Value).getEffectiveSkillLevel(2) >= 1)
@@ -1073,18 +1072,20 @@ namespace RestStopLocations
         /// <summary>Update the attached tapper's held output.</summary>
         /// <param name="tapper">The attached tapper instance.</param>
         /// <param name="previousOutput">The previous item produced by the tapper, if any.</param>
-        public void UpdateTapperProduct(StardewValley.Object tapper, StardewValley.Object previousOutput = null)
+        public void UpdateTapperProduct(Object tapper, Object previousOutput = null)
         {
             if (tapper == null)
             {
                 return;
             }
-            WildTreeData data = this.GetData();
+            WildTreeData data;
+            data = this.GetData();
             if (data == null)
             {
                 return;
             }
-            float timeMultiplier = 1f;
+            float timeMultiplier;
+            timeMultiplier = 1f;
             foreach (string contextTag in tapper.GetContextTags())
             {
                 if (contextTag.StartsWith("tapper_multiplier_") && float.TryParse(contextTag.Substring("tapper_multiplier_".Length), out var multiplier))
@@ -1093,7 +1094,8 @@ namespace RestStopLocations
                     break;
                 }
             }
-            Random random = Utility.CreateRandom(Game1.uniqueIDForThisGame, Game1.stats.DaysPlayed, 73137.0, (double)this.Tile.X * 9.0, (double)this.Tile.Y * 13.0);
+            Random random;
+            random = Utility.CreateRandom(Game1.uniqueIDForThisGame, Game1.stats.DaysPlayed, 73137.0, (double)this.Tile.X * 9.0, (double)this.Tile.Y * 13.0);
             if (this.TryGetTapperOutput(data.TapItems, previousOutput?.ItemId, random, timeMultiplier, out var output, out var minutesUntilReady))
             {
                 tapper.heldObject.Value = output;
@@ -1108,7 +1110,7 @@ namespace RestStopLocations
         /// <param name="timeMultiplier">A multiplier to apply to the minutes until ready.</param>
         /// <param name="output">The possible tapper output.</param>
         /// <param name="minutesUntilReady">The number of minutes until the tapper would produce the output.</param>
-        protected bool TryGetTapperOutput(List<WildTreeTapItemData> tapItems, string previousItemId, Random r, float timeMultiplier, out StardewValley.Object output, out int minutesUntilReady)
+        protected bool TryGetTapperOutput(List<WildTreeTapItemData> tapItems, string previousItemId, Random r, float timeMultiplier, out Object output, out int minutesUntilReady)
         {
             if (tapItems != null)
             {
@@ -1121,7 +1123,8 @@ namespace RestStopLocations
                     }
                     if (tapData.PreviousItemId != null)
                     {
-                        bool found = false;
+                        bool found;
+                        found = false;
                         foreach (string expectedPrevId in tapData.PreviousItemId)
                         {
                             found = (string.IsNullOrEmpty(expectedPrevId) ? (previousItemId == null) : string.Equals(previousItemId, ItemRegistry.QualifyItemId(expectedPrevId), StringComparison.OrdinalIgnoreCase));
@@ -1139,30 +1142,29 @@ namespace RestStopLocations
                     {
                         continue;
                     }
-                    Farmer targetFarmer = Game1.getFarmer(this.lastPlayerToHit.Value);
-                    Item item = this.TryGetDrop(tapData, r, targetFarmer, "TapItems", (string id) => id.Replace("PREVIOUS_OUTPUT_ID", previousItemId));
+                    Farmer targetFarmer;
+                    targetFarmer = Game1.getFarmer(this.lastPlayerToHit.Value);
+                    Item item;
+                    item = this.TryGetDrop(tapData, r, targetFarmer, "TapItems", (string id) => id.Replace("PREVIOUS_OUTPUT_ID", previousItemId));
                     if (item != null)
                     {
-                        StardewValley.Object obj = item as StardewValley.Object;
-                        if (obj != null)
+                        if (item is Object obj)
                         {
-                            int daysUntilReady = (int)Utility.ApplyQuantityModifiers(tapData.DaysUntilReady, tapData.DaysUntilReadyModifiers, tapData.DaysUntilReadyModifierMode, this.Location, Game1.player);
+                            int daysUntilReady;
+                            daysUntilReady = (int)Utility.ApplyQuantityModifiers(tapData.DaysUntilReady, tapData.DaysUntilReadyModifiers, tapData.DaysUntilReadyModifierMode, this.Location, Game1.player);
                             output = obj;
                             minutesUntilReady = Utility.CalculateMinutesUntilMorning(Game1.timeOfDay, (int)Math.Max(1.0, Math.Floor((float)daysUntilReady * timeMultiplier)));
                             return true;
                         }
-
-                        
-
-                       // IGameLogger log = this.;
+                        IGameLogger log;
+                       
                         DefaultInterpolatedStringHandler defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(64, 2);
                         defaultInterpolatedStringHandler.AppendLiteral("Wild tree '");
                         defaultInterpolatedStringHandler.AppendFormatted(this.treeType.Value);
                         defaultInterpolatedStringHandler.AppendLiteral("' can't produce item '");
                         defaultInterpolatedStringHandler.AppendFormatted(item.ItemId);
                         defaultInterpolatedStringHandler.AppendLiteral("': must be an object-type item.");
-                        Monitor.Log((defaultInterpolatedStringHandler.ToStringAndClear()));
-                        // Monitor.Log().Warn(defaultInterpolatedStringHandler.ToStringAndClear());            
+                       
                     }
                 }
                 if (previousItemId != null)
@@ -1177,7 +1179,8 @@ namespace RestStopLocations
 
         protected void performSproutDestroy(Tool t, Vector2 tileLocation)
         {
-            GameLocation location = this.Location;
+            GameLocation location;
+            location = this.Location;
             Game1.createRadialDebris(location, 12, (int)tileLocation.X, (int)tileLocation.Y, Game1.random.Next(10, 20), resource: false);
             if (t != null && t.BaseName.Contains("Axe") && Game1.recentMultiplayerRandom.NextDouble() < (double)((float)t.getLastFarmerToUse().ForagingLevel / 10f))
             {
@@ -1188,8 +1191,10 @@ namespace RestStopLocations
 
         protected void performBushDestroy(Vector2 tileLocation)
         {
-            GameLocation location = this.Location;
-            WildTreeData data = this.GetData();
+            GameLocation location;
+            location = this.Location;
+            WildTreeData data;
+            data = this.GetData();
             if (data == null)
             {
                 return;
@@ -1199,7 +1204,8 @@ namespace RestStopLocations
             {
                 Game1.createDebris(12, (int)tileLocation.X, (int)tileLocation.Y, (int)((Game1.getFarmer(this.lastPlayerToHit.Value).professions.Contains(12) ? 1.25 : 1.0) * 4.0), location);
             }
-            List<WildTreeChopItemData> chopItems = data.ChopItems;
+            List<WildTreeChopItemData> chopItems;
+            chopItems = data.ChopItems;
             if (chopItems == null || chopItems.Count <= 0)
             {
                 return;
@@ -1214,10 +1220,12 @@ namespace RestStopLocations
             {
                 r = Utility.CreateRandom(Game1.uniqueIDForThisGame, Game1.stats.DaysPlayed, (double)tileLocation.X * 7.0, (double)tileLocation.Y * 11.0);
             }
-            Farmer targetFarmer = Game1.getFarmer(this.lastPlayerToHit.Value);
+            Farmer targetFarmer;
+            targetFarmer = Game1.getFarmer(this.lastPlayerToHit.Value);
             foreach (WildTreeChopItemData drop in data.ChopItems)
             {
-                Item item = this.TryGetDrop(drop, r, targetFarmer, "ChopItems");
+                Item item;
+                item = this.TryGetDrop(drop, r, targetFarmer, "ChopItems");
                 if (item != null)
                 {
                     Game1.createMultipleItemDebris(item, tileLocation * 64f, -2, location);
@@ -1227,8 +1235,10 @@ namespace RestStopLocations
 
         protected bool performTreeFall(Tool t, int explosion, Vector2 tileLocation)
         {
-            GameLocation location = this.Location;
-            WildTreeData data = this.GetData();
+            GameLocation location;
+            location = this.Location;
+            WildTreeData data;
+            data = this.GetData();
             this.Location.objects.Remove(this.Tile);
             this.tapped.Value = false;
             if (!this.stump)
@@ -1293,13 +1303,16 @@ namespace RestStopLocations
                         {
                             Game1.createRadialDebris(location, 12, (int)tileLocation.X, (int)tileLocation.Y, (int)((Game1.getFarmer(this.lastPlayerToHit.Value).professions.Contains(12) ? 1.25 : 1.0) * 4.0), resource: true);
                         }
-                        List<WildTreeChopItemData> chopItems = data.ChopItems;
+                        List<WildTreeChopItemData> chopItems;
+                        chopItems = data.ChopItems;
                         if (chopItems != null && chopItems.Count > 0)
                         {
-                            Farmer targetFarmer2 = Game1.getFarmer(this.lastPlayerToHit.Value);
+                            Farmer targetFarmer2;
+                            targetFarmer2 = Game1.getFarmer(this.lastPlayerToHit.Value);
                             foreach (WildTreeChopItemData drop2 in data.ChopItems)
                             {
-                                Item item2 = this.TryGetDrop(drop2, r, targetFarmer2, "ChopItems");
+                                Item item2;
+                                item2 = this.TryGetDrop(drop2, r, targetFarmer2, "ChopItems");
                                 if (item2 != null)
                                 {
                                     if (item2.QualifiedItemId == "(O)420" && tileLocation.X % 7f == 0f)
@@ -1317,13 +1330,16 @@ namespace RestStopLocations
                         {
                             Game1.createRadialDebris(location, 12, (int)tileLocation.X, (int)tileLocation.Y, (int)((Game1.getFarmer(this.lastPlayerToHit.Value).professions.Contains(12) ? 1.25 : 1.0) * (double)(5 + this.extraWoodCalculator(tileLocation))), resource: true);
                         }
-                        List<WildTreeChopItemData> chopItems2 = data.ChopItems;
+                        List<WildTreeChopItemData> chopItems2;
+                        chopItems2 = data.ChopItems;
                         if (chopItems2 != null && chopItems2.Count > 0)
                         {
-                            Farmer targetFarmer = Game1.getFarmer(this.lastPlayerToHit.Value);
+                            Farmer targetFarmer;
+                            targetFarmer = Game1.getFarmer(this.lastPlayerToHit.Value);
                             foreach (WildTreeChopItemData drop in data.ChopItems)
                             {
-                                Item item = this.TryGetDrop(drop, r, targetFarmer, "ChopItems");
+                                Item item;
+                                item = this.TryGetDrop(drop, r, targetFarmer, "ChopItems");
                                 if (item != null)
                                 {
                                     if (item.QualifiedItemId == "(O)420" && tileLocation.X % 7f == 0f)
@@ -1352,7 +1368,8 @@ namespace RestStopLocations
         /// <summary>Update the tree's season for the location it's planted in.</summary>
         protected void setSeason()
         {
-            GameLocation location = this.Location;
+            GameLocation location;
+            location = this.Location;
             this.localSeason = ((!(location is Desert) && !(location is MineShaft)) ? Game1.GetSeasonForLocation(location) : Season.Spring);
         }
 
@@ -1361,7 +1378,8 @@ namespace RestStopLocations
             layerDepth += positionOnScreen.X / 100000f;
             if ((int)this.growthStage < 5)
             {
-                Microsoft.Xna.Framework.Rectangle sourceRect = (int)this.growthStage switch
+                Microsoft.Xna.Framework.Rectangle sourceRect;
+                sourceRect = (int)this.growthStage switch
                 {
                     0 => new Microsoft.Xna.Framework.Rectangle(32, 128, 16, 16),
                     1 => new Microsoft.Xna.Framework.Rectangle(0, 128, 16, 16),
@@ -1387,17 +1405,21 @@ namespace RestStopLocations
             {
                 return;
             }
-            Vector2 tileLocation = this.Tile;
-            float baseSortPosition = this.getBoundingBox().Bottom;
+            Vector2 tileLocation;
+            tileLocation = this.Tile;
+            float baseSortPosition;
+            baseSortPosition = this.getBoundingBox().Bottom;
             if (this.texture.Value == null || !Tree.TryGetData(this.treeType.Value, out var data))
             {
-                IItemDataDefinition itemType = ItemRegistry.RequireTypeDefinition("(O)");
+                IItemDataDefinition itemType;
+                itemType = ItemRegistry.RequireTypeDefinition("(O)");
                 spriteBatch.Draw(itemType.GetErrorTexture(), Game1.GlobalToLocal(Game1.viewport, new Vector2(tileLocation.X * 64f + ((this.shakeTimer > 0f) ? ((float)Math.Sin(Math.PI * 2.0 / (double)this.shakeTimer) * 3f) : 0f), tileLocation.Y * 64f)), itemType.GetErrorSourceRect(), Color.White * this.alpha, 0f, Vector2.Zero, 4f, this.flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None, (baseSortPosition + 1f) / 10000f);
                 return;
             }
             if ((int)this.growthStage < 5)
             {
-                Microsoft.Xna.Framework.Rectangle sourceRect = (int)this.growthStage switch
+                Microsoft.Xna.Framework.Rectangle sourceRect;
+                sourceRect = (int)this.growthStage switch
                 {
                     0 => new Microsoft.Xna.Framework.Rectangle(32, 128, 16, 16),
                     1 => new Microsoft.Xna.Framework.Rectangle(0, 128, 16, 16),
@@ -1411,7 +1433,8 @@ namespace RestStopLocations
                 if (!this.stump || (bool)this.falling)
                 {
                     spriteBatch.Draw(Game1.mouseCursors, Game1.GlobalToLocal(Game1.viewport, new Vector2(tileLocation.X * 64f - 51f, tileLocation.Y * 64f - 16f)), Tree.shadowSourceRect, Color.White * ((float)Math.PI / 2f - Math.Abs(this.shakeRotation)), 0f, Vector2.Zero, 4f, this.flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 1E-06f);
-                    Microsoft.Xna.Framework.Rectangle source_rect = Tree.treeTopSourceRect;
+                    Microsoft.Xna.Framework.Rectangle source_rect;
+                    source_rect = Tree.treeTopSourceRect;
                     if ((data.UseAlternateSpriteWhenSeedReady && this.hasSeed.Value) || (data.UseAlternateSpriteWhenNotShaken && !this.wasShakenToday.Value))
                     {
                         source_rect.X = 48;
@@ -1436,5 +1459,10 @@ namespace RestStopLocations
                 spriteBatch.Draw(this.texture.Value, Game1.GlobalToLocal(Game1.viewport, i.position), new Microsoft.Xna.Framework.Rectangle(16 + i.type % 2 * 8, 112 + i.type / 2 * 8, 8, 8), Color.White, i.rotation, Vector2.Zero, 4f, SpriteEffects.None, baseSortPosition / 10000f + 0.01f);
             }
         }
+
+
+
+
     }
 }
+

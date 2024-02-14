@@ -208,7 +208,7 @@ namespace RestStopLocations.Game.Locations.DungeonLevelGenerators
             }
         }
 
-        public override bool isCollidingPosition(Microsoft.Xna.Framework.Rectangle position, xTile.Dimensions.Rectangle viewport, bool isFarmer, int damagesFarmer, bool glider, Character character, bool pathfinding, bool projectile = false, bool ignoreCharacterRequirement = false)
+        public override bool isCollidingPosition(Microsoft.Xna.Framework.Rectangle position, xTile.Dimensions.Rectangle viewport, bool isFarmer, int damagesFarmer, bool glider, Character character)
         {
             if (!glider)
             {
@@ -230,7 +230,7 @@ namespace RestStopLocations.Game.Locations.DungeonLevelGenerators
                     }
                 }
             }
-            return base.isCollidingPosition(position, viewport, isFarmer, damagesFarmer, glider, character, pathfinding, projectile, ignoreCharacterRequirement);
+            return base.isCollidingPosition(position, viewport, character is Farmer, damagesFarmer, glider, character, pathfinding: false);
         }
 
       

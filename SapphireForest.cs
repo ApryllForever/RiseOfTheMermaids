@@ -357,6 +357,7 @@ namespace RestStopLocations.Game.Locations
         //public Crop(bool forageCrop, string which, int tileX, int tileY, GameLocation location)
         protected override void resetLocalState()
         {
+
             
             Vector2 creakysounds = new Vector2(50, 7);
             _raySeed = (int)Game1.currentGameTime.TotalGameTime.TotalMilliseconds;
@@ -373,6 +374,26 @@ namespace RestStopLocations.Game.Locations
             //AmbientesqueLocationSounds.addSound(new Vector2(13f, 7f), 2);
 
             //LocationSounds sound = new LocationSounds(creakysounds, 2);
+
+            {
+                Vector2 objectPos = new Vector2(33, 111);
+
+                if (this.isTilePlaceable(objectPos))
+                {
+                    if (!this.terrainFeatures.ContainsKey(objectPos))
+                    {
+                        this.terrainFeatures.Add(objectPos, new Sequoia(
+                           id: "Mermaid.Sequoia"
+
+
+                             )
+                            );
+                    }
+                }
+
+            }
+
+
 
             {
                 int x = 112;
@@ -795,7 +816,7 @@ namespace RestStopLocations.Game.Locations
             }
         }
 
-        public override bool isCollidingPosition(Microsoft.Xna.Framework.Rectangle position, xTile.Dimensions.Rectangle viewport, bool isFarmer, int damagesFarmer, bool glider, Character character, bool pathfinding, bool projectile = false, bool ignoreCharacterRequirement = false)
+        public override bool isCollidingPosition(Microsoft.Xna.Framework.Rectangle position, xTile.Dimensions.Rectangle viewport, bool isFarmer, int damagesFarmer, bool glider, Character character)
         {
             if (!glider)
             {
@@ -830,7 +851,10 @@ namespace RestStopLocations.Game.Locations
                     }
                 }
             }
-            return base.isCollidingPosition(position, viewport, isFarmer, damagesFarmer, glider, character, pathfinding, projectile, ignoreCharacterRequirement);
+
+             
+
+            return base.isCollidingPosition(position, viewport, character is Farmer, damagesFarmer, glider, character, pathfinding: false);
         }
 
 

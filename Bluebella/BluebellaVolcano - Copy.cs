@@ -2074,14 +2074,14 @@ namespace RestStopLocations.Bluebella
 			return _blobIndexLookup;
 		}
 
-		public override bool isCollidingPosition(Microsoft.Xna.Framework.Rectangle position, xTile.Dimensions.Rectangle viewport, bool isFarmer, int damagesFarmer, bool glider, Character character, bool pathfinding, bool projectile = false, bool ignoreCharacterRequirement = false)
-		{
+		public override bool isCollidingPosition(Microsoft.Xna.Framework.Rectangle position, xTile.Dimensions.Rectangle viewport, bool isFarmer, int damagesFarmer, bool glider, Character character)
+        {
 			if (isFarmer && !glider && (position.Left < 0 || position.Right > map.DisplayWidth || position.Top < 0 || position.Bottom > map.DisplayHeight))
 			{
 				return true;
 			}
-			return base.isCollidingPosition(position, viewport, isFarmer, damagesFarmer, glider, character, pathfinding, projectile, ignoreCharacterRequirement);
-		}
+			return base.isCollidingPosition(position, viewport, character is Farmer, damagesFarmer, glider, character, pathfinding: false);
+        }
 
 		public Dictionary<int, Point> GetLavaBlobLookup()
 		{

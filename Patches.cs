@@ -11,6 +11,9 @@ using RestStopLocations.Game.Locations.Sapphire;
 using RestStopLocations.Utilities;
 using StardewValley.Enchantments;
 using System;
+using System.Xml.Linq;
+using StardewValley.GameData.Crops;
+using StardewValley.GameData.WildTrees;
 
 namespace RestStopLocations.Patches
 {
@@ -213,8 +216,57 @@ public static class BaseEnchantmentListPatch
 
 
 
+/*
+[HarmonyPatch(typeof(Tree), nameof(Tree.getBoundingBox))]
+public static class SequoiaPatch
+{
+    public static bool Prefix(Tree __instance, ref Microsoft.Xna.Framework.Rectangle __result)
+    {
+       WildTreeData data = __instance.GetData();
 
+        if (data != null && data.CustomFields.ContainsValue("MermaidSequoia"))
 
+        //if (__instance != null && __instance.TextureName.StartsWith("MermaidSeq"))
+        {
+            Vector2 tileLocation = __instance.Tile;
+           // if ( (int)__instance.growthStage < 4)
+           // {
+            //    __result = new Microsoft.Xna.Framework.Rectangle((int)tileLocation.X * 64, (int)tileLocation.Y * 64, 64, 64);
+          //     return false;
+           // }
+           // else
+                __result = new Microsoft.Xna.Framework.Rectangle((int)(tileLocation.X) * 64, (int)(tileLocation.Y) * 64, 192, 192);
+            return false;
+        }
+       
+        return true;
+    }
+}
+*/
+/*
+[HarmonyPatch(typeof(Tree), nameof(Tree.getBoundingBox))]
+public static class SequoiaPatch
+{
+    public static bool Prefix(Tree __instance, ref Microsoft.Xna.Framework.Rectangle __result)
+    {
+        if (int.TryParse(__instance.treeType.Value, out _)) // ignore vanilla trees
+            return true;
+
+        if (__instance.treeType.Name.Equals("Mermaid.Sequoia"))
+        {
+            Vector2 tileLocation = __instance.Tile;
+            if ((int)__instance.growthStage < 4)
+            {
+                __result = new Microsoft.Xna.Framework.Rectangle((int)tileLocation.X * 64, (int)tileLocation.Y * 64, 64, 64);
+                return false;
+            }
+            else
+                __result = new Microsoft.Xna.Framework.Rectangle((int)(tileLocation.X - 1f) * 64, (int)(tileLocation.Y - 1f) * 64, 192, 192);
+            return false;
+        }
+        return true;
+    }
+} */
 
 
 

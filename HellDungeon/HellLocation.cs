@@ -97,7 +97,8 @@ namespace RestStopLocations.Game.Locations
                 {
                     Game1.warpFarmer("Custom_SouthRestStop", 39, 18, flip: false);
                     string rescuer3 = "Vika";
-                    string uniquemessage3 = "Data\\ExtraDialogue:Mines_PlayerKilled_Vika";
+                    string unique
+        3 = "Data\\ExtraDialogue:Mines_PlayerKilled_Vika";
                     switch (Game1.random.Next(7))
                     {
                         case 0:

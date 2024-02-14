@@ -31,6 +31,7 @@ using UtilitiesStuff;
 using static StardewValley.Minigames.CraneGame;
 using StardewValley.Menus;
 using RestStopLocations.VirtualProperties;
+using RestStopLocations.Patches;
 //using RestStopLocations.Quests;
 
 
@@ -86,7 +87,7 @@ namespace RestStopLocations
             BluebellaDungeon.Monitor = this.Monitor;
             HellDungeon.Monitor = this.Monitor;
             SapphireSprings.Monitor = this.Monitor;
-
+            BigTree.Monitor = this.Monitor;
          
 
             //SoundEffect mainMusic = SoundEffect.FromFile(Path.Combine(Helper.DirectoryPath, "assets", "SongLost.wav"));
@@ -111,10 +112,13 @@ namespace RestStopLocations
             var Game1_multiplayer = this.Helper.Reflection.GetField<Multiplayer>(typeof(Game1), "multiplayer").GetValue();
             multiplayer = Game1_multiplayer;
 
-
+            harmony.Patch(
+             original: AccessTools.Method(typeof(Game1), nameof(Game1.getCharacterFromName), new Type[] { typeof(string), typeof(bool) }),
+             prefix: new HarmonyMethod(typeof(SequoiaPatches), nameof(SequoiaPatches.getCharacterFromName_Prefix))
+            );
 
             //Code Esca allowed me to use, 7/19/23 Discord Moddding Server
-            HarmonyPatch_BedPlacement.ApplyPatch(harmony, Monitor);
+            // HarmonyPatch_BedPlacement.ApplyPatch(harmony, Monitor);
         }
 
       
@@ -188,6 +192,7 @@ namespace RestStopLocations
             sc.RegisterSerializerType(typeof(RealmofSpiritsWinter));
             sc.RegisterSerializerType(typeof(EmeraldForestShrine));
             sc.RegisterSerializerType(typeof(BigTree));
+            sc.RegisterSerializerType(typeof(Sequoia));
 
             sc.RegisterSerializerType(typeof(PearlEanchantment));
             //sc.RegisterSerializerType(typeof(BugRing));
