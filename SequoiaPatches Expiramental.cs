@@ -67,12 +67,15 @@ namespace RestStopLocations
             if (int.TryParse(__instance.treeType.Value, out _))
                 return true;
 
-            if (__instance.treeType.Value == "Mermaid.Sequoia")
+            if (__instance.treeType.Value != "Mermaid.Sequoia")
+                return true;
+
+                if (__instance.treeType.Value == "Mermaid.Sequoia")
             {
                 Vector2 tileLocation = __instance.Tile;
                 if ((bool)__instance.stump.Value || (int)__instance.growthStage.Value < 4)
                 {
-                    __result = new Microsoft.Xna.Framework.Rectangle((int)(tileLocation.X - 0f) * 64, (int)(tileLocation.Y - 1f) * 64, 64, 128);
+                    __result = new Microsoft.Xna.Framework.Rectangle((int)(tileLocation.X - 0f) * 64, (int)(tileLocation.Y - 1f) * 64, 64, 64);
                     return false;
                 }
 
@@ -105,8 +108,8 @@ namespace RestStopLocations
         }
         public static bool draw_Prefix(Tree __instance, SpriteBatch spriteBatch)
         {
-            var treeTopSourceRect = new Microsoft.Xna.Framework.Rectangle(0, 0, 96, 112);
-            var stumpSourceRect = new Microsoft.Xna.Framework.Rectangle(64, 112, 32, 48);
+            var treeTopSourceRect = new Microsoft.Xna.Framework.Rectangle(0, 0, 144, 224);
+            var stumpSourceRect = new Microsoft.Xna.Framework.Rectangle(96, 224, 48, 48);
             var shadowSourceRect = new Microsoft.Xna.Framework.Rectangle(663, 1011, 41, 30);
 
             // get reflected values
@@ -114,13 +117,13 @@ namespace RestStopLocations
             float alpha = Helper.Reflection.GetField<float>(__instance, "alpha").GetValue();
             float shakeRotation = Helper.Reflection.GetField<float>(__instance, "shakeRotation").GetValue();
             List<Leaf> leaves = Helper.Reflection.GetField<List<Leaf>>(__instance, "leaves").GetValue();
-            bool falling = (bool)Helper.Reflection.GetField<NetBool>(__instance, "falling").GetValue();
+            bool falling = (bool)Helper.Reflection.GetField<NetBool>(__instance, "falling").GetValue().Value;
 
             // ignore vanilla trees
             if (int.TryParse(__instance.treeType.Value, out _))
                 return true;
 
-            if (__instance.treeType.Value == "testTree")
+            if (__instance.treeType.Value == "Mermaid.Sequoia")
             {
                 Vector2 tileLocation = __instance.Tile;
                 float baseSortPosition = __instance.getBoundingBox().Bottom;
@@ -143,14 +146,40 @@ namespace RestStopLocations
                         (baseSortPosition + 1f) / 10000f);
                     return false;
                 }
-                if ((int)__instance.growthStage < 5)
+                if ((int)__instance.growthStage < 4)
                 {
                     Microsoft.Xna.Framework.Rectangle sourceRect = (long)__instance.growthStage switch
                     {
-                        0L => new Microsoft.Xna.Framework.Rectangle(32, 128, 16, 16),
-                        1L => new Microsoft.Xna.Framework.Rectangle(0, 128, 16, 16),
-                        2L => new Microsoft.Xna.Framework.Rectangle(16, 128, 16, 16),
-                        _ => new Microsoft.Xna.Framework.Rectangle(0, 96, 16, 32),
+                        0L => new Microsoft.Xna.Framework.Rectangle(80, 272, 16, 16),
+                        1L => new Microsoft.Xna.Framework.Rectangle(48, 272, 16, 16),
+                        2L => new Microsoft.Xna.Framework.Rectangle(64, 256, 16, 32),
+                        3L => new Microsoft.Xna.Framework.Rectangle(0, 224, 16, 48),
+                       // 4L => new Microsoft.Xna.Framework.Rectangle(144, 64, 48, 176),
+                    };
+                    // draw immature tree
+                    spriteBatch.Draw(
+                        __instance.texture.Value,
+                        Game1.GlobalToLocal(Game1.viewport, new Vector2(
+                            tileLocation.X * 64f + 32f,
+                            tileLocation.Y * 64f - (float)(sourceRect.Height * 4 - 64) + (float)(((int)__instance.growthStage >= 2) ? 128 : 64))),
+                        sourceRect,
+                        __instance.fertilized ? Color.HotPink : Color.White,
+                        shakeRotation,
+                        new Vector2(8f, ((int)__instance.growthStage >= 2) ? 32 : 16),
+                        4f,
+                        __instance.flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
+                        ((int)__instance.growthStage == 0) ? 0.0001f : (baseSortPosition / 10000f));
+                }
+
+
+
+
+              else if ((int)__instance.growthStage < 5)
+                {
+                    Microsoft.Xna.Framework.Rectangle sourceRect = (long)__instance.growthStage switch
+                    {
+                      
+                        4L => new Microsoft.Xna.Framework.Rectangle(144, 64, 48, 176),
                     };
                     // draw immature tree
                     spriteBatch.Draw(
@@ -166,6 +195,7 @@ namespace RestStopLocations
                         __instance.flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
                         ((int)__instance.growthStage == 0) ? 0.0001f : (baseSortPosition / 10000f));
                 }
+
                 else
                 {
                     if (!__instance.stump || (bool)falling)
@@ -182,11 +212,16 @@ namespace RestStopLocations
                             __instance.flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
                             1E-06f
                             );
-                        if ((data.UseAlternateSpriteWhenSeedReady && __instance.hasSeed.Value) || (data.UseAlternateSpriteWhenNotShaken && !__instance.wasShakenToday.Value))
-                        {
-                            treeTopSourceRect.X = 48;
-                        }
-                        else
+
+                        //This is for alt appearance if seed in tree
+
+                        //if ((data.UseAlternateSpriteWhenSeedReady && __instance.hasSeed.Value) || (data.UseAlternateSpriteWhenNotShaken && !__instance.wasShakenToday.Value))
+                        //{
+                         //   treeTopSourceRect.X = 48;
+                       // }
+                        //else
+
+
                         {
                             treeTopSourceRect.X = 0;
                         }
@@ -224,7 +259,7 @@ namespace RestStopLocations
                             Game1.GlobalToLocal(Game1.viewport, new Vector2(
                                 tileLocation.X * 64f + ((shakeTimer > 0f) ? ((float)Math.Sin(Math.PI * 2.0 / (double)shakeTimer) * 3f) : 0f),
                                 tileLocation.Y * 64f)),
-                            new Microsoft.Xna.Framework.Rectangle(Math.Min(2, (int)(3f - __instance.health.Value)) * 16, 144, 16, 16),
+                            new Microsoft.Xna.Framework.Rectangle(Math.Min(2, (int)(3f - __instance.health.Value)) * 96, 224, 16 * 3, 16 * 3),
                             Color.White * alpha,
                             0f,
                             Vector2.Zero,
@@ -238,7 +273,7 @@ namespace RestStopLocations
                     spriteBatch.Draw(
                         __instance.texture.Value,
                         Game1.GlobalToLocal(Game1.viewport, i.position),
-                        new Microsoft.Xna.Framework.Rectangle(16 + i.type % 2 * 8, 112 + i.type / 2 * 8, 8, 8),
+                        new Microsoft.Xna.Framework.Rectangle(16 + i.type % 2 * 8, 256 + i.type / 2 * 8, 8, 8),
                         Color.White,
                         i.rotation,
                         Vector2.Zero,
@@ -251,6 +286,11 @@ namespace RestStopLocations
             return true;
         }
 
+        /*
+         * 
+         * Don't Know what the fuck this one is even for. No one axes my Redwoods.
+         * 
+         * 
         public static void DoFunction_Postfix(Axe __instance, GameLocation location, int x, int y, int power, Farmer who)
         {
             int tileX = x / 64;
@@ -270,6 +310,7 @@ namespace RestStopLocations
                 }
             }
         }
+        */
 
         public static void removeObjectsAndSpawned_Postfix(GameLocation __instance, int x, int y, int width, int height)
         {

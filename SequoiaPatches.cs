@@ -9,11 +9,7 @@ namespace RestStopLocations
     public class SequoiaPatches
     {
 
-        public static void getCharacterFromName_Prefix(string name, bool mustBeVillager = false)
-        {
-           
-        }
-
+       
 
 
 

@@ -33,6 +33,7 @@ using StardewValley.Menus;
 using RestStopLocations.VirtualProperties;
 using RestStopLocations.Patches;
 //using RestStopLocations.Quests;
+using StardewValley.TerrainFeatures;
 
 
 namespace RestStopLocations
@@ -87,7 +88,7 @@ namespace RestStopLocations
             BluebellaDungeon.Monitor = this.Monitor;
             HellDungeon.Monitor = this.Monitor;
             SapphireSprings.Monitor = this.Monitor;
-            BigTree.Monitor = this.Monitor;
+            //BigTree.Monitor = this.Monitor;
          
 
             //SoundEffect mainMusic = SoundEffect.FromFile(Path.Combine(Helper.DirectoryPath, "assets", "SongLost.wav"));
@@ -112,10 +113,41 @@ namespace RestStopLocations
             var Game1_multiplayer = this.Helper.Reflection.GetField<Multiplayer>(typeof(Game1), "multiplayer").GetValue();
             multiplayer = Game1_multiplayer;
 
+            //                      See the Junk Sequoia Patches
+           // harmony.Patch(
+            // original: AccessTools.Method(typeof(Game1), nameof(Game1.getCharacterFromName), new Type[] { typeof(string), typeof(bool) }),
+           //  prefix: new HarmonyMethod(typeof(SequoiaPatches), nameof(SequoiaPatches.getCharacterFromName_Prefix))
+           // );
+
+            // I strongly doubt this is needed. Seed planting seems entirely handled by CP in 1.6.
+            //
+            //harmony.Patch(
+            // original: AccessTools.Method(typeof(GameLocation), nameof(GameLocation.CanPlantTr), new Type[] { typeof(string), typeof(bool) }),
+            //prefix: new HarmonyMethod(typeof(SequoiaPatchesMarkII), nameof(SequoiaPatchesMarkII.canPlantThisSeedHere_Postfix))
+            // );
+
             harmony.Patch(
-             original: AccessTools.Method(typeof(Game1), nameof(Game1.getCharacterFromName), new Type[] { typeof(string), typeof(bool) }),
-             prefix: new HarmonyMethod(typeof(SequoiaPatches), nameof(SequoiaPatches.getCharacterFromName_Prefix))
-            );
+           original: AccessTools.Method(typeof(Tree), nameof(Tree.getRenderBounds)),
+           prefix: new HarmonyMethod(typeof(SequoiaPatchesMarkII), nameof(SequoiaPatchesMarkII.getRenderBounds_Prefix))
+          );
+
+
+            harmony.Patch(
+           original: typeof(GameLocation).GetMethod(nameof(GameLocation.isCollidingPosition), new[] { typeof(Microsoft.Xna.Framework.Rectangle), typeof(xTile.Dimensions.Rectangle), typeof(Character) }),
+           postfix: new HarmonyMethod(typeof(SequoiaPatchesMarkII), nameof(SequoiaPatchesMarkII.isCollidingPosition_Postfix))
+          );
+
+            harmony.Patch(
+          original: AccessTools.Method(typeof(Tree), nameof(Tree.draw)),
+          prefix: new HarmonyMethod(typeof(SequoiaPatchesMarkII), nameof(SequoiaPatchesMarkII.draw_Prefix))
+         );
+
+            harmony.Patch(
+         original: AccessTools.Method(typeof(GameLocation), nameof(GameLocation.removeObjectsAndSpawned)),
+         postfix: new HarmonyMethod(typeof(SequoiaPatchesMarkII), nameof(SequoiaPatchesMarkII.removeObjectsAndSpawned_Postfix))
+        );
+
+
 
             //Code Esca allowed me to use, 7/19/23 Discord Moddding Server
             // HarmonyPatch_BedPlacement.ApplyPatch(harmony, Monitor);
@@ -151,6 +183,8 @@ namespace RestStopLocations
 
             AmbientishLocationSounds.Initialize();
             AmbientesqueLocationSounds.InitShared();
+
+            SequoiaPatchesMarkII.Initialize(Helper);
 
 
             //Bluebella.Initialize(Helper);
@@ -191,7 +225,7 @@ namespace RestStopLocations
             sc.RegisterSerializerType(typeof(BeyondDark));
             sc.RegisterSerializerType(typeof(RealmofSpiritsWinter));
             sc.RegisterSerializerType(typeof(EmeraldForestShrine));
-            sc.RegisterSerializerType(typeof(BigTree));
+           // sc.RegisterSerializerType(typeof(BigTree));
             sc.RegisterSerializerType(typeof(Sequoia));
 
             sc.RegisterSerializerType(typeof(PearlEanchantment));

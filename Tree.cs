@@ -1,3 +1,5 @@
+/*
+
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -256,6 +258,9 @@ namespace RestStopLocations
         }
 
         */
+
+
+/*
 
         /// <summary>Reload the tree texture based on <see cref="F:StardewValley.GameData.WildTrees.WildTreeData.Textures" /> if a different texture would be selected now.</summary>
         public void CheckForNewTexture()
@@ -1438,3 +1443,5 @@ namespace RestStopLocations
         }
     }
 }
+
+*/
