@@ -35,9 +35,7 @@ namespace RestStopLocations
             if (itemId == "ApryllForever.RiseMermaids_SequoiaSeed") { __result = true; }
         }
 
-        /*
-         * Don't need this one, I already have the Patch
-         * 
+   
         public static bool getBoundingBox_Prefix(Tree __instance, ref Microsoft.Xna.Framework.Rectangle __result)
         {
             // ignore vanilla trees
@@ -53,12 +51,12 @@ namespace RestStopLocations
                     return false;
                 }
                 else
-                    __result = new Microsoft.Xna.Framework.Rectangle((int)(tileLocation.X) * 64, (int)(tileLocation.Y) * 64, 128, 128);
+                    __result = new Microsoft.Xna.Framework.Rectangle((int)(tileLocation.X - 1f) * 64, (int)(tileLocation.Y - 1f) * 64, 192, 192); //new Microsoft.Xna.Framework.Rectangle((int)(tileLocation.X) * 64, (int)(tileLocation.Y) * 64, 128, 128);
                 return false;
             }
             return true;
         }
-        */
+        
 
 
         public static bool getRenderBounds_Prefix(Tree __instance, ref Microsoft.Xna.Framework.Rectangle __result)
@@ -94,14 +92,18 @@ namespace RestStopLocations
         {
             Microsoft.Xna.Framework.Rectangle farmerBounds = Game1.player.GetBoundingBox();
 
+            
+
             foreach (KeyValuePair<Vector2, TerrainFeature> feature in __instance.terrainFeatures.Pairs)
             {
-                if (feature.Value is Tree tree)
+                if (feature.Value is Tree tree && tree.growthStage.Value >=4) //&& tree.treeType.Value == "Mermaid.Sequoia"
                 {
-                    Microsoft.Xna.Framework.Rectangle treeBounds = tree.getBoundingBox();
-                    if (treeBounds.Intersects(position) && !treeBounds.Intersects(farmerBounds))
                     {
-                        __result = true;
+                        Microsoft.Xna.Framework.Rectangle treeBounds = tree.getBoundingBox();
+                        if (treeBounds.Intersects(position)) // && !treeBounds.Intersects(farmerBounds)
+                        {
+                            __result = true;
+                        }
                     }
                 }
             }
@@ -232,7 +234,7 @@ namespace RestStopLocations
                             treeTopSourceRect,
                             Color.White * alpha,
                             shakeRotation,
-                            new Vector2(24f, 96f),
+                            new Vector2(56f, 232f),
                             4f, __instance.flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
                             (baseSortPosition + 2f) / 10000f - tileLocation.X / 1000000f);
                     }
@@ -242,8 +244,8 @@ namespace RestStopLocations
                         spriteBatch.Draw(
                             __instance.texture.Value,
                             Game1.GlobalToLocal(Game1.viewport, new Vector2(
-                                tileLocation.X * 64f + ((shakeTimer > 0f) ? ((float)Math.Sin(Math.PI * 2.0 / (double)shakeTimer) * 3f) : 0f),
-                                tileLocation.Y * 64f - 64f)),
+                                tileLocation.X * 64f + ((shakeTimer > 0f) ? ((float)Math.Sin(Math.PI * 2.0 / (double)shakeTimer) * 3f) : -64f),
+                                tileLocation.Y * 64f + -96f)),
                             stumpSourceRect,
                             Color.White * alpha,
                             0f,
@@ -259,7 +261,7 @@ namespace RestStopLocations
                             Game1.GlobalToLocal(Game1.viewport, new Vector2(
                                 tileLocation.X * 64f + ((shakeTimer > 0f) ? ((float)Math.Sin(Math.PI * 2.0 / (double)shakeTimer) * 3f) : 0f),
                                 tileLocation.Y * 64f)),
-                            new Microsoft.Xna.Framework.Rectangle(Math.Min(2, (int)(3f - __instance.health.Value)) * 96, 224, 16 * 3, 16 * 3),
+                            new Microsoft.Xna.Framework.Rectangle(Math.Min(0, (int)(3f - __instance.health.Value)) * 96, 224, 16 * 3, 16 * 3),
                             Color.White * alpha,
                             0f,
                             Vector2.Zero,
@@ -341,6 +343,7 @@ namespace RestStopLocations
         }
     }
 
+    /*
 
     [HarmonyPatch(typeof(Tree), nameof(Tree.getBoundingBox))]
     public static class SequoiaPatch
@@ -368,7 +371,7 @@ namespace RestStopLocations
             return true;
         }
     }
-
+      */
 
 
 }

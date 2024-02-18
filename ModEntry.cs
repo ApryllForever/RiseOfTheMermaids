@@ -133,7 +133,7 @@ namespace RestStopLocations
 
 
             harmony.Patch(
-           original: typeof(GameLocation).GetMethod(nameof(GameLocation.isCollidingPosition), new[] { typeof(Microsoft.Xna.Framework.Rectangle), typeof(xTile.Dimensions.Rectangle), typeof(Character) }),
+           original: typeof(GameLocation).GetMethod(nameof(GameLocation.isCollidingPosition), new[] { typeof(Microsoft.Xna.Framework.Rectangle), typeof(xTile.Dimensions.Rectangle), typeof(bool), typeof(int), typeof(bool), typeof(Character), typeof(bool), typeof(bool), typeof(bool), typeof(bool), }),
            postfix: new HarmonyMethod(typeof(SequoiaPatchesMarkII), nameof(SequoiaPatchesMarkII.isCollidingPosition_Postfix))
           );
 
@@ -147,7 +147,10 @@ namespace RestStopLocations
          postfix: new HarmonyMethod(typeof(SequoiaPatchesMarkII), nameof(SequoiaPatchesMarkII.removeObjectsAndSpawned_Postfix))
         );
 
-
+            harmony.Patch(
+         original: AccessTools.Method(typeof(Tree), nameof(Tree.getBoundingBox)),
+         prefix: new HarmonyMethod(typeof(SequoiaPatchesMarkII), nameof(SequoiaPatchesMarkII.getBoundingBox_Prefix))
+        );
 
             //Code Esca allowed me to use, 7/19/23 Discord Moddding Server
             // HarmonyPatch_BedPlacement.ApplyPatch(harmony, Monitor);
